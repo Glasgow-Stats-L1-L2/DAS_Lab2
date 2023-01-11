@@ -1,0 +1,28 @@
+# Reorder the data frame using `arrange` {-}
+
+The `dplyr` package has a function called `arrange` that is used to sort/reorder data frames according to the values of the specified variable.  This is often used after we have used the `group_by` and `summarize` functions as we will see.
+
+Let's suppose we were interested in determining the most frequent destination airports from New York City in 2013:
+
+```{r, eval}
+freq_dest <- flights %>% 
+  group_by(dest) %>% 
+  summarize(num_flights = n())
+freq_dest
+```
+
+You'll see that by default the values of `dest` are displayed in alphabetical order here.  We are interested in finding those airports that appear most:
+
+```{r}
+freq_dest %>% 
+  arrange(num_flights)
+```
+
+This is actually giving us the opposite of what we are looking for.  It tells us the least frequent destination airports first.  To switch the ordering to be descending instead of ascending we use the `desc` (`desc`ending) function:
+
+```{r}
+freq_dest %>% 
+  arrange(desc(num_flights))
+```
+
+

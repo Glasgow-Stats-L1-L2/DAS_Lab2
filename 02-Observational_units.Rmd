@@ -1,0 +1,74 @@
+# Observational units {-}
+
+Recall the `nycflights13` package with data about all domestic flights departing from New York City in 2013 that we used in Week 1 to create visualizations. In particular, let's revisit the `flights` data frame:
+
+```{r flights}
+dim(flights)  #Returns the dimensions of a dataframe
+head(flights) #Returns the first 6 rows of the object
+glimpse(flights) #Lists the variables in an object with their first few values 
+```
+
+We see that `flights` has a rectangular shape with each row corresponding to a different flight and each column corresponding to a characteristic of that flight.  This matches exactly with the first two properties of tidy data, namely:
+
+1. Each variable forms a column.
+2. Each observation forms a row.
+
+But what about the third property?
+
+3. Each type of observational unit forms a table.
+
+The observational unit in the `flights` data set is an individual flight and we can see above that this data set consists of `r scales::comma(nrow(flights))` flights with `r ncol(flights)` variables.  In other words, rows of this data set don't refer to a measurement on an airline or on an airport; they refer to characteristics/measurements on a given flight from New York City in 2013.  This illustrates the 3rd property of tidy data, i.e. each observational unit is fully described by a single data set.
+
+Not that there is only one observational unit of interest in any analysis.  For example, also included in the `nycflights13` package are data sets with different observational units\*:
+
+* `airlines`
+* `planes`
+* `weather`
+* `airports`
+
+The organization of this data follows the third "tidy" data property: observations corresponding to the same observational unit are saved in the same data frame.
+
+<br>
+
+**Task**
+For each of the data sets listed above (other than `flights`), identify the observational unit and how many of these are described in each of the data sets.
+
+`r hide("Hint")`
+Use `names()` and `dim()` functions.
+`r unhide()`
+
+```{r Task2-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+names(airlines) #Obs Unit: individual airlines
+dim(airlines) #16 airlines are described 
+names(planes) # Obs Unit: different makes/models of planes
+dim(planes) #3322 different makes/models of planes are described 
+names(weather) #Obs Unit: weather conditions at different airports at different times
+dim(weather) #26115 weather conditions are described
+names(airports) # Obs Unit: individual airports
+dim(airports) # 1458 airports are described
+```
+
+```{r MCQ1, echo=FALSE}
+nairlines <- nrow(nycflights13::airlines)
+nplanes <- dim(planes)[1]
+nweather <- dim(weather)[1]
+nairports <- dim(airports)[1]
+
+opts_Q1 <- sample(c(sprintf("%s",nairlines),
+                    answer = sprintf("%s",nplanes),
+                    sprintf("%s",nweather),
+                    sprintf("%s",nairports)))
+```
+
+<br>
+
+**How many different types of planes are represented in the `nycflights13` package?**
+`r longmcq(opts_Q1)`
+
+***
+
+\* You can get basic information on R packages using `help(package = "packagename")`, which can be applied to this library using `help(package = "nycflights13")`.
+
+<br>
+<br>
+

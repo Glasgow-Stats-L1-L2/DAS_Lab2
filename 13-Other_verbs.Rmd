@@ -1,0 +1,174 @@
+# Other verbs {-}
+
+### Select variables using `select` {-}
+
+```{r selectfig, echo=FALSE, fig.cap="Select diagram from Data Wrangling with dplyr and tidyr cheatsheet", purl=FALSE, out.width = "400px", fig.pos="h"}
+knitr::include_graphics("images/select.png")
+```
+
+We've seen that the `flights` data frame in the `nycflights13` package contains many different variables. The `names` function gives a listing of all the columns in a data frame; in our case you would run `names(flights)`. You can also identify these variables by running the `glimpse` function in the `dplyr` package:
+
+```{r, eval=TRUE}
+glimpse(flights)
+```
+
+However, say you only want to consider two of these variables, say `carrier` and `flight`. You can `select` these:
+
+```{r, eval=TRUE}
+flights %>% 
+  select(carrier, flight)
+```
+
+This function makes navigating data sets with a very large number of variables easier for humans by restricting consideration to only those of interest, like `carrier` and `flight` above. So for example, this might make viewing the data set using the `View()` spreadsheet viewer more digestible. However, as far as the computer is concerned it doesn't care how many variables additional variables are in the data set in question, so long as `carrier` and `flight` are included.
+
+Another example involves the variable `year`. If you remember the original description of the `flights` data frame (or by running `?flights`), you'll remember that this data correspond to flights in 2013 departing New York City.  The `year` variable isn't really a variable here in that it doesn't vary... `flights` actually comes from a larger data set that covers many years.  We may want to remove the `year` variable from our data set since it won't be helpful for analysis in this case. We can deselect `year` by using the `-` sign:
+
+```{r, eval=TRUE}
+flights_no_year <- flights %>% 
+  select(-year)
+names(flights_no_year)
+```
+
+Or we could specify a ranges of columns:
+
+```{r, eval=TRUE}
+flight_arr_times <- flights %>% 
+  select(month:dep_time, arr_time:sched_arr_time)
+flight_arr_times
+```
+
+The `select` function can also be used to reorder columns in combination with the `everything` helper function.  Let's suppose we'd like the `hour`, `minute`, and `time_hour` variables, which appear at the end of the `flights` data set, to actually appear immediately after the `day` variable:
+
+```{r, eval=TRUE}
+flights_reorder <- flights %>% 
+  select(month:day, hour:time_hour, everything())
+names(flights_reorder)
+```
+
+in this case `everything()` picks up all remaining variables. Lastly, the helper functions `starts_with`, `ends_with`, and `contains` can be used to choose **variables/column names** that match those conditions:
+
+```{r, eval=TRUE}
+flights_begin_a <- flights %>% 
+  select(starts_with("a"))
+head(flights_begin_a)
+```
+
+```{r, eval=TRUE}
+flights_delays <- flights %>% 
+  select(ends_with("delay"))
+head(flights_delays)
+```
+
+```{r, eval=TRUE}
+flights_time <- flights %>% 
+  select(contains("time"))
+head(flights_time)
+```
+
+
+### Rename variables using `rename` {-}
+
+Another useful function is `rename`, which as you may suspect renames one column to another name.  Suppose we wanted `dep_time` and `arr_time` to be `departure_time` and `arrival_time` instead in the `flights_time` data frame:
+
+```{r, eval=TRUE}
+flights_time <- flights %>% 
+  select(contains("time")) %>% 
+  rename(departure_time = dep_time,
+         arrival_time = arr_time)
+names(flights_time)
+```
+
+Note that in this case we used a single `=` sign with the `rename()`. e.g.. `departure_time = dep_time`. This is because we are not testing for equality like we would using `==`, but instead we want to assign a new variable `departure_time` to have the same values as `dep_time` and then delete the variable `dep_time`.
+
+It's easy to forget if the new name comes before or after the equals sign.  I usually remember this as "New Before, Old After" or NBOA. You'll receive an error if you try to do it the other way:
+
+```
+Error: Unknown variables: departure_time, arrival_time.
+```
+
+### Find the top number of values using `top_n` {-}
+
+We can also use the `top_n` function which automatically tells us the most frequent `num_flights`.  We specify the top 10 airports here:
+
+```{r, eval=TRUE}
+named_dests %>% 
+  top_n(n = 10, wt = num_flights)
+```
+
+We'll still need to arrange this by `num_flights` though:
+
+```{r, eval=TRUE}
+named_dests  %>% 
+  top_n(n = 10, wt = num_flights) %>% 
+  arrange(desc(num_flights))
+```
+
+**Note:** Remember that I didn't pull the `n` and `wt` arguments out of thin air.  They can be found by using the `?` function on `top_n`.
+
+We can go one step further and tie together the `group_by` and `summarize` functions we used to find the most frequent flights:
+
+```{r, eval=TRUE}
+ten_freq_dests <- flights %>%
+  group_by(dest) %>%
+  summarize(num_flights = n()) %>%
+  arrange(desc(num_flights)) %>%
+  top_n(n = 10) 
+ten_freq_dests
+```
+
+<br>
+
+**Task**
+What are some ways to select all three of the `dest`, `air_time`, and `distance` variables from `flights`?  Give the code showing how to do this in at least three different ways.
+
+```{r Task13-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+flights %>% 
+  select(dest, air_time, distance)
+
+flights %>% 
+  select(dest:distance)
+
+flights %>% 
+  select(-year, -month, -day, -dep_time, -sched_dep_time, -dep_delay, -arr_time,
+         -sched_arr_time, -arr_delay, -carrier, -flight, -tailnum, -origin, 
+         -hour, -minute, -time_hour)
+```
+
+<br>
+
+**Task**
+How could one use `starts_with`, `ends_with`, and `contains` to select columns from the `flights` data frame?  Provide three different examples in total: one for `starts_with`, one for `ends_with`, and one for `contains`.
+
+```{r Task14-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+# Anything that starts with "d"
+flights %>% 
+  select(starts_with("d"))
+
+# Anything related to delays:
+flights %>% 
+  select(ends_with("delay"))
+
+# Anything related to departures:
+flights %>% 
+  select(contains("dep"))
+```
+
+<br>
+
+**Task**
+Create a new data frame that shows the top 5 airports with the largest average arrival delays from NYC in 2013.
+
+```{r Task15-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+top5_arr_delays <- flights %>%
+  group_by(dest) %>%
+  summarize(mean_arr_delay = mean(arr_delay, na.rm=T)) %>%
+  arrange(desc(mean_arr_delay)) %>%
+  top_n(n = 5)
+
+top5_arr_delays %>% 
+  inner_join(airports %>% select(faa, name), by = c("dest" = "faa") )
+```
+
+<br>
+<br>
+

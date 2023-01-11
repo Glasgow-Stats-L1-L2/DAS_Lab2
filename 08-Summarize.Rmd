@@ -1,0 +1,114 @@
+# Summarize variables using summarize {-}
+
+The next common task when working with data is to be able to summarize data: take a large number of values and summarize them with a single value. While this may seem like a very abstract idea, something as simple as the sum, the smallest value, and the largest values are all summaries of a large number of values.
+
+```{r sum2, echo=FALSE,  purl=FALSE, out.width = "400px", fig.pos="h"}
+knitr::include_graphics("images/summary.png")
+```
+
+We can calculate the standard deviation and mean of the temperature variable `temp` in the `weather` data frame of `nycflights13` in one step using the `summarize` (or equivalently using the UK spelling `summarise`) function in `dplyr`.
+
+```{r, eval=FALSE, echo=TRUE}
+summary_temp <- weather %>% 
+  summarize(mean = mean(temp), std_dev = sd(temp))
+summary_temp
+```
+```{r, echo=FALSE}
+summary_temp <- weather %>% 
+  summarize(mean = mean(temp), std_dev = sd(temp))
+kable(summary_temp)
+```
+
+We've created a small data frame here called `summary_temp` that includes both the `mean` and the `std_dev` of the `temp` variable in `weather`.  Notice, the data frame `weather` went from many rows to a single row of just the summary values in the data frame `summary_temp`.
+
+But why are the values returned `NA`? This stands for "not available or not applicable" and is how R encodes *missing values*; if in a data frame for a particular row and column no value exists, `NA` is stored instead. Furthermore, by default any time you try to summarize a number of values (using `mean()` and `sd()` for example) that has one or more missing values, then `NA` is returned. 
+
+Values can be missing for many reasons. Perhaps the data was collected but someone forgot to enter it? Perhaps the data was not collected at all because it was too difficult? Perhaps there was an erroneous value that someone entered that has been changed to read as missing? You'll often encounter issues with missing values. 
+
+You can summarize all non-missing values by setting the `na.rm` argument to TRUE (`rm` is short for "remove"). This will remove any `NA` missing values and only return the summary value for all non-missing values. So the code below computes the mean and standard deviation of all non-missing values. Notice how the `na.rm=TRUE` are set as arguments to the `mean()` and `sd()` functions, and not to the `summarize()` function. 
+
+```{r, eval=FALSE, echo=TRUE}
+summary_temp <- weather %>% 
+  summarize(mean = mean(temp, na.rm = TRUE), std_dev = sd(temp, na.rm = TRUE))
+summary_temp
+```
+```{r, echo=FALSE}
+summary_temp <- weather %>% 
+  summarize(mean = mean(temp, na.rm = TRUE), std_dev = sd(temp, na.rm = TRUE))
+kable(summary_temp)
+```
+
+It is **not** good practice to include a `na.rm = TRUE` in your summary commands by default; you should attempt to run code first without this argument as this will alert you to the presence of missing data. Only after you've identified where missing values occur and have thought about the potential causes of this missing should you consider using `na.rm = TRUE`. In the upcoming Tasks we'll consider the possible ramifications of blindly sweeping rows with missing values under the rug.
+
+What other summary functions can we use inside the `summarize()` verb? Any function in R that takes a vector of values and returns just one. Here are just a few:
+
+* `mean()`: the mean or average
+* `sd()`: the standard deviation, which is a measure of spread
+* `min()` and `max()`: the minimum and maximum values respectively
+* `IQR()`: Interquartile range
+* `sum()`: the sum
+* `n()`: a count of the number of rows/observations in each group. This particular summary function will make more sense when `group_by()` is used in the next section. 
+
+<br>
+
+**Task**
+Say a doctor is studying the effect of smoking on lung cancer for a large number of patients who have records measured at five year intervals. She notices that a large number of patients have missing data points because the patient has died, so she chooses to ignore these patients in her analysis. What is wrong with this doctor's approach?
+
+`r hide("Solution")`
+The missing patients may have died of lung cancer!
+So to ignore them might seriously **bias** your results!
+
+It is very important to think of what the consequences on your analysis
+are of ignoring missing data! Ask yourself:
+
+* Is there is a systematic reasons why certain values are missing?
+    + If yes, you might be biasing your results!
+    + If there isn't, then it might be OK to "sweep missing values under the rug."
+`r unhide()`
+
+<br>
+
+**Task**
+Modify the code above to create `summary_temp` to also use the `n()` summary function: `summarize(count = n())`. What does the returned value correspond to?
+
+```{r Task8-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+weather %>% 
+  summarize(count = n())#It corresponds to a count of the number of observations/rows.
+
+#We can check this using the dim() function which returns the dimensions (rows and columns)
+dim(weather)
+```
+
+<br>
+
+**Task**
+Why doesn't the following code work?
+
+```{r eval=FALSE}
+summary_temp <- weather %>%   
+  summarize(mean = mean(temp, na.rm = TRUE)) %>% 
+  summarize(std_dev = sd(temp, na.rm = TRUE))
+```
+
+`r hide("Hint")`
+Run the code line by line instead of all at once, and then look at the data.  In other words, run `weather %>% summarize(mean = mean(temp, na.rm = TRUE))` first and see what it produces.
+`r unhide()`
+
+`r hide("Solution")`
+Consider the output of only running the first two lines:
+```{r Task9-solution, eval=FALSE, echo=TRUE}
+weather %>%   
+  summarize(mean = mean(temp, na.rm = TRUE))
+```
+```{r, echo=FALSE}
+summary_task <- weather %>% 
+  summarize(mean = mean(temp, na.rm = TRUE))
+kable(summary_task)
+```
+
+Because after the first `summarize()`, the variable `temp` disappears as it has been collapsed to the value `mean`. So when we try to run the second `summarize()`, it can't find the variable temp` to compute the standard deviation of. 
+`r unhide()`
+
+<br>
+<br>
+

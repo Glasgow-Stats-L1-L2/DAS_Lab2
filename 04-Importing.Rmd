@@ -1,0 +1,50 @@
+# Importing spreadsheets into R {-}
+
+Up to this point, we've been using data stored inside of an R package.  In the real world, your data will usually come from a spreadsheet file either on your computer or online.  Spreadsheet data is often saved in one of two formats:
+
+* A *Comma Separated Values* `.csv` file.  You can think of a CSV file as a bare-bones spreadsheet where:
+    + Each line in the file corresponds to one row of data/one observation.
+    + Values for each line are separated with commas. In other words, the values of different variables are separated by commas.
+    + The first line is often, but not always, a *header* row indicating the names of the columns/variables.
+* An Excel `.xlsx` file. This format is based on Microsoft's proprietary Excel software. As opposed to a bare-bones `.csv` files, `.xlsx` Excel files contain a lot of *metadata*, i.e. data about the data. Examples include the use of bold and italic fonts, colored cells, different column widths, and formula macros etc.
+
+[Google Sheets](https://www.google.com/sheets/about/) allows you to download your data in both comma separated values `.csv` and Excel `.xlsx` formats: Go to the Google Sheets menu bar -> File -> Download as -> Select "Microsoft Excel" or "Comma-separated values".
+
+We'll cover two methods for importing data in R: one using the R console and the other using RStudio's graphical interface. 
+
+### Method 1: From the console {-}
+
+First, let's download a *Comma Separated Values* (CSV) file of ratings of the level of democracy in different countries spanning 1952 to 1992: <https://moderndive.com/data/dem_score.csv>. We use the `read_csv()` function from the `readr` package to read it off the web and then take a look.
+
+```{r message=FALSE, eval=TRUE}
+library(readr)
+dem_score <- read_csv("https://moderndive.com/data/dem_score.csv")
+dem_score
+```
+
+In this `dem_score` data frame, the minimum value of -10 corresponds to a highly autocratic nation whereas a value of 10 corresponds to a highly democratic nation.
+
+### Method 2: Using RStudio's interface {-}
+
+Let's read in the same data saved in Excel format this time at <https://moderndive.com/data/dem_score.xlsx>, but using RStudio's graphical interface instead of via the R console. First download the Excel file, then go to the Files pane of RStudio -> Navigate to the directory where your downloaded `dem_score.xlsx` is saved -> Click on `dem_score.xlsx` -> Click "Import Dataset..." -> Click "Import Dataset..." At this point you should see an image like in 
+
+```{r readexcelfig, echo=FALSE, fig.cap="", out.width = "400px", fig.pos="h"}
+knitr::include_graphics("images/read_excel.png",dpi = 700)
+```
+
+After clicking on the "Import" button on the bottom right RStudio save this spreadsheet's data in a data frame called `dem_score` and display its contents in the spreadsheet viewer. Furthermore you'll see the code that read in your data in the console; you can copy and paste this code to reload your data again later instead of repeating the above manual process.
+
+<br>
+
+**Task**
+Read in the life expectancy data stored at https://moderndive.com/data/le_mess.csv, either using the console below or using RStudio's interface.
+
+```{r Task4-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+library(readr)
+life_exp_scores <- read_csv("https://moderndive.com/data/le_mess.csv")
+head(life_exp_scores)
+```
+
+<br>
+<br>
+

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Observational units | Data Analysis: Tidying and Wrangling Data in R</title>
+  <meta name="description" content="Observational units | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Observational units | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Observational units | Data Analysis: Tidying and Wrangling Data in R" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introducing-tidy-data.html"/>
+<link rel="next" href="identification-vs-measurement-variables.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Getting started</a></li>
+<li class="chapter" data-level="" data-path="introducing-tidy-data.html"><a href="introducing-tidy-data.html"><i class="fa fa-check"></i>Introducing "Tidy" Data</a></li>
+<li class="chapter" data-level="" data-path="observational-units.html"><a href="observational-units.html"><i class="fa fa-check"></i>Observational units</a></li>
+<li class="chapter" data-level="" data-path="identification-vs-measurement-variables.html"><a href="identification-vs-measurement-variables.html"><i class="fa fa-check"></i>Identification vs measurement variables</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html"><i class="fa fa-check"></i>Importing spreadsheets into R</a>
+<ul>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-1-from-the-console"><i class="fa fa-check"></i>Method 1: From the console</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-2-using-rstudios-interface"><i class="fa fa-check"></i>Method 2: Using RStudio's interface</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="converting-to-tidy-data-format.html"><a href="converting-to-tidy-data-format.html"><i class="fa fa-check"></i>Converting to "tidy" data format</a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html"><i class="fa fa-check"></i>Introducing data wrangling</a>
+<ul>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#the-pipe"><i class="fa fa-check"></i>The pipe <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#data-wrangling-verbs"><i class="fa fa-check"></i>Data wrangling verbs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="filter-observations-using-filter.html"><a href="filter-observations-using-filter.html"><i class="fa fa-check"></i>Filter observations using filter</a></li>
+<li class="chapter" data-level="" data-path="summarize-variables-using-summarize.html"><a href="summarize-variables-using-summarize.html"><i class="fa fa-check"></i>Summarize variables using summarize</a></li>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html"><i class="fa fa-check"></i>Group rows using <code>group_by</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html#grouping-by-more-than-one-variable"><i class="fa fa-check"></i>Grouping by more than one variable</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="create-new-variableschange-old-variables-using-mutate.html"><a href="create-new-variableschange-old-variables-using-mutate.html"><i class="fa fa-check"></i>Create new variables/change old variables using <code>mutate</code></a></li>
+<li class="chapter" data-level="" data-path="reorder-the-data-frame-using-arrange.html"><a href="reorder-the-data-frame-using-arrange.html"><i class="fa fa-check"></i>Reorder the data frame using <code>arrange</code></a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html"><i class="fa fa-check"></i>Joining data frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables"><i class="fa fa-check"></i>Joining by "key" variables</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables-with-different-names"><i class="fa fa-check"></i>Joining by "key" variables with different names</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-multiple-key-variables"><i class="fa fa-check"></i>Joining by multiple "key" variables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html"><i class="fa fa-check"></i>Other verbs</a>
+<ul>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#select-variables-using-select"><i class="fa fa-check"></i>Select variables using <code>select</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#rename-variables-using-rename"><i class="fa fa-check"></i>Rename variables using <code>rename</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#find-the-top-number-of-values-using-top_n"><i class="fa fa-check"></i>Find the top number of values using <code>top_n</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="further-tasks.html"><a href="further-tasks.html"><i class="fa fa-check"></i>Further Tasks</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Tidying and Wrangling Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="observational-units" class="section level1 unnumbered hasAnchor">
+<h1>Observational units<a href="observational-units.html#observational-units" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Recall the <code>nycflights13</code> package with data about all domestic flights departing from New York City in 2013 that we used in Week 1 to create visualizations. In particular, let's revisit the <code>flights</code> data frame:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="observational-units.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(flights)  <span class="co">#Returns the dimensions of a dataframe</span></span></code></pre></div>
+<pre><code>[1] 336776     19</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="observational-units.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights) <span class="co">#Returns the first 6 rows of the object</span></span></code></pre></div>
+<pre><code># A tibble: 6 x 19
+   year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+  &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;       &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+1  2013     1     1      517         515       2     830     819      11 UA     
+2  2013     1     1      533         529       4     850     830      20 UA     
+3  2013     1     1      542         540       2     923     850      33 AA     
+4  2013     1     1      544         545      -1    1004    1022     -18 B6     
+5  2013     1     1      554         600      -6     812     837     -25 DL     
+6  2013     1     1      554         558      -4     740     728      12 UA     
+# ... with 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;,
+#   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
+#   time_hour &lt;dttm&gt;, and abbreviated variable names 1: sched_dep_time,
+#   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+# i Use `colnames()` to see all variable names</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="observational-units.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(flights) <span class="co">#Lists the variables in an object with their first few values </span></span></code></pre></div>
+<pre><code>Rows: 336,776
+Columns: 19
+$ year           &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2~
+$ month          &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+$ day            &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+$ dep_time       &lt;int&gt; 517, 533, 542, 544, 554, 554, 555, 557, 557, 558, 558, ~
+$ sched_dep_time &lt;int&gt; 515, 529, 540, 545, 600, 558, 600, 600, 600, 600, 600, ~
+$ dep_delay      &lt;dbl&gt; 2, 4, 2, -1, -6, -4, -5, -3, -3, -2, -2, -2, -2, -2, -1~
+$ arr_time       &lt;int&gt; 830, 850, 923, 1004, 812, 740, 913, 709, 838, 753, 849,~
+$ sched_arr_time &lt;int&gt; 819, 830, 850, 1022, 837, 728, 854, 723, 846, 745, 851,~
+$ arr_delay      &lt;dbl&gt; 11, 20, 33, -18, -25, 12, 19, -14, -8, 8, -2, -3, 7, -1~
+$ carrier        &lt;chr&gt; &quot;UA&quot;, &quot;UA&quot;, &quot;AA&quot;, &quot;B6&quot;, &quot;DL&quot;, &quot;UA&quot;, &quot;B6&quot;, &quot;EV&quot;, &quot;B6&quot;, &quot;~
+$ flight         &lt;int&gt; 1545, 1714, 1141, 725, 461, 1696, 507, 5708, 79, 301, 4~
+$ tailnum        &lt;chr&gt; &quot;N14228&quot;, &quot;N24211&quot;, &quot;N619AA&quot;, &quot;N804JB&quot;, &quot;N668DN&quot;, &quot;N394~
+$ origin         &lt;chr&gt; &quot;EWR&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;JFK&quot;, &quot;LGA&quot;, &quot;EWR&quot;, &quot;EWR&quot;, &quot;LGA&quot;,~
+$ dest           &lt;chr&gt; &quot;IAH&quot;, &quot;IAH&quot;, &quot;MIA&quot;, &quot;BQN&quot;, &quot;ATL&quot;, &quot;ORD&quot;, &quot;FLL&quot;, &quot;IAD&quot;,~
+$ air_time       &lt;dbl&gt; 227, 227, 160, 183, 116, 150, 158, 53, 140, 138, 149, 1~
+$ distance       &lt;dbl&gt; 1400, 1416, 1089, 1576, 762, 719, 1065, 229, 944, 733, ~
+$ hour           &lt;dbl&gt; 5, 5, 5, 5, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6~
+$ minute         &lt;dbl&gt; 15, 29, 40, 45, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 0~
+$ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 0~</code></pre>
+<p>We see that <code>flights</code> has a rectangular shape with each row corresponding to a different flight and each column corresponding to a characteristic of that flight. This matches exactly with the first two properties of tidy data, namely:</p>
+<ol style="list-style-type: decimal">
+<li>Each variable forms a column.</li>
+<li>Each observation forms a row.</li>
+</ol>
+<p>But what about the third property?</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Each type of observational unit forms a table.</li>
+</ol>
+<p>The observational unit in the <code>flights</code> data set is an individual flight and we can see above that this data set consists of 336,776 flights with 19 variables. In other words, rows of this data set don't refer to a measurement on an airline or on an airport; they refer to characteristics/measurements on a given flight from New York City in 2013. This illustrates the 3rd property of tidy data, i.e. each observational unit is fully described by a single data set.</p>
+<p>Not that there is only one observational unit of interest in any analysis. For example, also included in the <code>nycflights13</code> package are data sets with different observational units*:</p>
+<ul>
+<li><code>airlines</code></li>
+<li><code>planes</code></li>
+<li><code>weather</code></li>
+<li><code>airports</code></li>
+</ul>
+<p>The organization of this data follows the third "tidy" data property: observations corresponding to the same observational unit are saved in the same data frame.</p>
+<p><br></p>
+<p><strong>Task</strong>
+For each of the data sets listed above (other than <code>flights</code>), identify the observational unit and how many of these are described in each of the data sets.</p>
+<div class="webex-solution">
+<button>
+Hint
+</button>
+<p>Use <code>names()</code> and <code>dim()</code> functions.</p>
+</div>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="observational-units.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(airlines) <span class="co">#Obs Unit: individual airlines</span></span></code></pre></div>
+<pre><code>[1] &quot;carrier&quot; &quot;name&quot;   </code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="observational-units.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(airlines) <span class="co">#16 airlines are described </span></span></code></pre></div>
+<pre><code>[1] 16  2</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="observational-units.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(planes) <span class="co"># Obs Unit: different makes/models of planes</span></span></code></pre></div>
+<pre><code>[1] &quot;tailnum&quot;      &quot;year&quot;         &quot;type&quot;         &quot;manufacturer&quot; &quot;model&quot;       
+[6] &quot;engines&quot;      &quot;seats&quot;        &quot;speed&quot;        &quot;engine&quot;      </code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="observational-units.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(planes) <span class="co">#3322 different makes/models of planes are described </span></span></code></pre></div>
+<pre><code>[1] 3322    9</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="observational-units.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(weather) <span class="co">#Obs Unit: weather conditions at different airports at different times</span></span></code></pre></div>
+<pre><code> [1] &quot;origin&quot;     &quot;year&quot;       &quot;month&quot;      &quot;day&quot;        &quot;hour&quot;      
+ [6] &quot;temp&quot;       &quot;dewp&quot;       &quot;humid&quot;      &quot;wind_dir&quot;   &quot;wind_speed&quot;
+[11] &quot;wind_gust&quot;  &quot;precip&quot;     &quot;pressure&quot;   &quot;visib&quot;      &quot;time_hour&quot; </code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="observational-units.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(weather) <span class="co">#26115 weather conditions are described</span></span></code></pre></div>
+<pre><code>[1] 26115    15</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="observational-units.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(airports) <span class="co"># Obs Unit: individual airports</span></span></code></pre></div>
+<pre><code>[1] &quot;faa&quot;   &quot;name&quot;  &quot;lat&quot;   &quot;lon&quot;   &quot;alt&quot;   &quot;tz&quot;    &quot;dst&quot;   &quot;tzone&quot;</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="observational-units.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(airports) <span class="co"># 1458 airports are described</span></span></code></pre></div>
+<pre><code>[1] 1458    8</code></pre>
+</div>
+<p><br></p>
+<strong>How many different types of planes are represented in the <code>nycflights13</code> package?</strong>
+<div id="radio_LRVJUPCUEL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LRVJUPCUEL" value="answer"></input> <span>3322</span></label><label><input type="radio" autocomplete="off" name="radio_LRVJUPCUEL" value=""></input> <span>16</span></label><label><input type="radio" autocomplete="off" name="radio_LRVJUPCUEL" value=""></input> <span>26115</span></label><label><input type="radio" autocomplete="off" name="radio_LRVJUPCUEL" value=""></input> <span>1458</span></label>
+</div>
+<hr />
+<p>* You can get basic information on R packages using <code>help(package = "packagename")</code>, which can be applied to this library using <code>help(package = "nycflights13")</code>.</p>
+<p><br>
+<br></p>
+
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introducing-tidy-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="identification-vs-measurement-variables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

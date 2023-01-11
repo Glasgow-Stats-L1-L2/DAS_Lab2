@@ -1,0 +1,99 @@
+# Summary {-}
+
+The table below lists a selection of the data wrangling verbs and summarizes what they do. Using these verbs and the pipe `%>%` operator, you'll be able to write easily legible code to perform almost all the data wrangling necessary for the rest of this course. 
+
+```{r wrangle-summary-table, echo=FALSE, message=FALSE, results= 'asis'}
+summary.table <- data.frame(Verb=c("filter()", "summarize()", "group_by()","mutate()","arrange()","inner_join()","select()"), Operation =c("Pick out a subset of rows", "Summarize many values to one using a summary statistic function like mean(), median(), etc.", "Add grouping structure to rows in data frame. Note this does not change values in data frame.", "Create new variables by mutating existing ones", "Arrange rows of a data variable in ascending (default) or descending order", "Join/merge two data frames, matching rows by a key variable", "Pick out a subset of columns to make data frames easier to view"))
+  summary.table %>% 
+    kable(
+    caption = "Summary of data wrangling verbs",
+    booktabs = TRUE
+  )
+```
+
+<br>
+
+**Task**
+An airline industry measure of a passenger airline's capacity is the [available seat miles](https://en.wikipedia.org/wiki/Available_seat_miles), which is equal to the number of seats available multiplied by the number of miles or kilometers flown. So for example say an airline had 2 flights using a plane with 10 seats that flew 500 miles and 3 flights using a plane with 20 seats that flew 1000 miles, the available seat miles would be 2 $\times$ 10 $\times$ 500 $+$ 3 $\times$ 20 $\times$ 1000 = 70,000 seat miles.
+
+Using the data sets included in the `nycflights13` package, compute the available seat miles for each airline sorted in descending order. After completing all the necessary data wrangling steps, the resulting data frame should have 16 rows (one for each airline) and 2 columns (airline name and available seat miles). Here are some hints:
+
+1. **Crucial**: Unless you are very confident in what you are doing, it is worthwhile to not start coding right away. Rather first sketch out on paper all the necessary data wrangling steps, not using exact code, but rather high-level *pseudocode* that is informal yet detailed enough to articulate what you are doing. This way you won't confuse *what* you are trying to do (the algorithm) with *how* you are going to do it (writing `dplyr` code). 
+
+2. Take a close look at all the data sets using the `View()`, `head()` or `glimpse()` functions: `flights`, `weather`, `planes`, `airports`, and `airlines` to identify which variables are necessary to compute available seat miles.
+
+3. This diagram (from the "Joining section"") will also be useful. 
+```{r reldiagram2, echo=FALSE, purl=FALSE, out.width = "400px", fig.pos="h"}
+knitr::include_graphics("images/relational-nycflights.png")
+```
+
+4. Consider the data wrangling verbs in the table above as your toolbox!
+
+If you want to work through it **step by step**, here are some hints:
+
+`r hide("Hint 1")`
+**Step 1:** To compute the available seat miles for a given flight, we need the `distance` variable from the `flights` data frame and the `seats` variable from the `planes` data frame, necessitating a join by the key variable `tailnum`. To keep the resulting data frame easy to view, we'll `select()` only these two variables and `carrier`.
+
+```{r Task16-solution1, webex.hide="Solution 1", echo=TRUE, eval=TRUE}
+flights %>% 
+  inner_join(planes, by = "tailnum") %>% 
+  select(carrier, seats, distance)
+```
+`r unhide()`
+
+`r hide("Hint 2")`
+**Step 2:** Now for each flight we can compute the available seat miles `ASM` by multiplying the number of seats by the distance via a `mutate()`.
+
+```{r Task16-solution2, webex.hide="Solution 2", echo=TRUE, eval=TRUE}
+flights %>% 
+  inner_join(planes, by = "tailnum") %>% 
+  select(carrier, seats, distance) %>% 
+  mutate(ASM = seats * distance)
+```
+`r unhide()`
+
+`r hide("Hint 3")`
+**Step 3:** Next we want to sum the `ASM` for each carrier. We achieve this by first grouping by `carrier` and then summarizing using the `sum()` function.
+
+```{r Task 16-solution3, webex.hide="Solution 3", echo=TRUE, eval=TRUE}
+flights %>% 
+  inner_join(planes, by = "tailnum") %>% 
+  select(carrier, seats, distance) %>% 
+  mutate(ASM = seats * distance) %>% 
+  # Added:
+  group_by(carrier) %>% 
+  summarize(ASM = sum(ASM))
+```
+`r unhide()`
+
+`r hide("Hint 4")`
+**Step 4:** However, if it was the case that some carriers had certain flights with missing `NA` values, the resulting table above would also returns `NA`'s (NB: this is not the case for this data). We can eliminate these by adding a `na.rm = TRUE` argument to `sum()`, telling R that we want to remove the `NA`'s in the sum.
+
+```{r Task16-solution4, webex.hide="Solution 4", echo=TRUE, eval=TRUE}
+flights %>% 
+  inner_join(planes, by = "tailnum") %>% 
+  select(carrier, seats, distance) %>% 
+  mutate(ASM = seats * distance) %>% 
+  group_by(carrier) %>% 
+  # Modified:
+  summarize(ASM = sum(ASM, na.rm = TRUE))
+```
+`r unhide()`
+
+`r hide("Hint 5")`
+**Step 5:** Finally, we `arrange()` the data in `desc()`ending order of `ASM`.
+
+```{r Task16-solution5, webex.hide="Solution 5", echo=TRUE, eval=TRUE}
+flights %>% 
+  inner_join(planes, by = "tailnum") %>% 
+  select(carrier, seats, distance) %>% 
+  mutate(ASM = seats * distance) %>% 
+  group_by(carrier) %>% 
+  summarize(ASM = sum(ASM, na.rm = TRUE)) %>% 
+  arrange(desc(ASM))
+```
+`r unhide()`
+
+<br>
+<br>
+

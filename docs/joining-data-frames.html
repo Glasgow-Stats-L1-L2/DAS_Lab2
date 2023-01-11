@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Joining data frames | Data Analysis: Tidying and Wrangling Data in R</title>
+  <meta name="description" content="Joining data frames | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Joining data frames | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Joining data frames | Data Analysis: Tidying and Wrangling Data in R" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="reorder-the-data-frame-using-arrange.html"/>
+<link rel="next" href="other-verbs.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Getting started</a></li>
+<li class="chapter" data-level="" data-path="introducing-tidy-data.html"><a href="introducing-tidy-data.html"><i class="fa fa-check"></i>Introducing "Tidy" Data</a></li>
+<li class="chapter" data-level="" data-path="observational-units.html"><a href="observational-units.html"><i class="fa fa-check"></i>Observational units</a></li>
+<li class="chapter" data-level="" data-path="identification-vs-measurement-variables.html"><a href="identification-vs-measurement-variables.html"><i class="fa fa-check"></i>Identification vs measurement variables</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html"><i class="fa fa-check"></i>Importing spreadsheets into R</a>
+<ul>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-1-from-the-console"><i class="fa fa-check"></i>Method 1: From the console</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-2-using-rstudios-interface"><i class="fa fa-check"></i>Method 2: Using RStudio's interface</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="converting-to-tidy-data-format.html"><a href="converting-to-tidy-data-format.html"><i class="fa fa-check"></i>Converting to "tidy" data format</a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html"><i class="fa fa-check"></i>Introducing data wrangling</a>
+<ul>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#the-pipe"><i class="fa fa-check"></i>The pipe <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#data-wrangling-verbs"><i class="fa fa-check"></i>Data wrangling verbs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="filter-observations-using-filter.html"><a href="filter-observations-using-filter.html"><i class="fa fa-check"></i>Filter observations using filter</a></li>
+<li class="chapter" data-level="" data-path="summarize-variables-using-summarize.html"><a href="summarize-variables-using-summarize.html"><i class="fa fa-check"></i>Summarize variables using summarize</a></li>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html"><i class="fa fa-check"></i>Group rows using <code>group_by</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html#grouping-by-more-than-one-variable"><i class="fa fa-check"></i>Grouping by more than one variable</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="create-new-variableschange-old-variables-using-mutate.html"><a href="create-new-variableschange-old-variables-using-mutate.html"><i class="fa fa-check"></i>Create new variables/change old variables using <code>mutate</code></a></li>
+<li class="chapter" data-level="" data-path="reorder-the-data-frame-using-arrange.html"><a href="reorder-the-data-frame-using-arrange.html"><i class="fa fa-check"></i>Reorder the data frame using <code>arrange</code></a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html"><i class="fa fa-check"></i>Joining data frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables"><i class="fa fa-check"></i>Joining by "key" variables</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables-with-different-names"><i class="fa fa-check"></i>Joining by "key" variables with different names</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-multiple-key-variables"><i class="fa fa-check"></i>Joining by multiple "key" variables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html"><i class="fa fa-check"></i>Other verbs</a>
+<ul>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#select-variables-using-select"><i class="fa fa-check"></i>Select variables using <code>select</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#rename-variables-using-rename"><i class="fa fa-check"></i>Rename variables using <code>rename</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#find-the-top-number-of-values-using-top_n"><i class="fa fa-check"></i>Find the top number of values using <code>top_n</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="further-tasks.html"><a href="further-tasks.html"><i class="fa fa-check"></i>Further Tasks</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Tidying and Wrangling Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="joining-data-frames" class="section level1 unnumbered hasAnchor">
+<h1>Joining data frames<a href="joining-data-frames.html#joining-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Another common task is joining or merging two different data sets. For example, in the <code>flights</code> data, the variable <code>carrier</code> lists the carrier code for the different flights. While <code>"UA"</code> and <code>"AA"</code> might be somewhat easy to guess for some (United and American Airlines), what are "VX", "HA", and "B6"? This information is provided in a separate data frame <code>airlines</code>.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="joining-data-frames.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airlines)</span></code></pre></div>
+<pre><code># A tibble: 6 x 2
+  carrier name                    
+  &lt;chr&gt;   &lt;chr&gt;                   
+1 9E      Endeavor Air Inc.       
+2 AA      American Airlines Inc.  
+3 AS      Alaska Airlines Inc.    
+4 B6      JetBlue Airways         
+5 DL      Delta Air Lines Inc.    
+6 EV      ExpressJet Airlines Inc.</code></pre>
+<p>We see that in <code>airports</code>, <code>carrier</code> is the carrier code while <code>name</code> is the full name of the airline. Using this table, we can see that "VX", "HA", and "B6" correspond to Virgin America, Hawaiian Airlines, and JetBlue respectively. However, will we have to continually look up the carrier's name for each flight in the <code>airlines</code> data set? No! Instead of having to do this manually, we can have R automatically do the "looking up" for us.</p>
+<p>Note that the values in the variable <code>carrier</code> in <code>flights</code> match the values in the variable <code>carrier</code> in <code>airlines</code>. In this case, we can use the variable <code>carrier</code> as a <strong>key variable</strong> to join/merge/match the two data frames by. Key variables are almost always identification variables that uniquely identify the observational units as we saw back in the "Identification vs Measurement Variable" section. This ensures that rows in both data frames are appropriate matched during the join.</p>
+<p>This diagram helps us understand how the different data sets are linked by various key variables:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:reldiagram"></span>
+<img src="images/relational-nycflights.png" alt="Data relationships in nycflights13 from R for Data Science, Hadley and Garrett (2016)" width="400px" />
+<p class="caption">
+Figure 4: Data relationships in nycflights13 from R for Data Science, Hadley and Garrett (2016)
+</p>
+</div>
+<div id="joining-by-key-variables" class="section level3 unnumbered hasAnchor">
+<h3>Joining by "key" variables<a href="joining-data-frames.html#joining-by-key-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In both <code>flights</code> and <code>airlines</code>, the key variable we want to join/merge/match the two data frames with has the same name in both data sets: <code>carriers</code>. We make use of the <code>inner_join()</code> function to join by the variable <code>carrier</code>.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="joining-data-frames.html#cb94-1" aria-hidden="true" tabindex="-1"></a>flights_joined <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb94-2"><a href="joining-data-frames.html#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(airlines, <span class="at">by =</span> <span class="st">&quot;carrier&quot;</span>)</span>
+<span id="cb94-3"><a href="joining-data-frames.html#cb94-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(flights)</span></code></pre></div>
+<pre><code> [1] &quot;year&quot;           &quot;month&quot;          &quot;day&quot;            &quot;dep_time&quot;      
+ [5] &quot;sched_dep_time&quot; &quot;dep_delay&quot;      &quot;arr_time&quot;       &quot;sched_arr_time&quot;
+ [9] &quot;arr_delay&quot;      &quot;carrier&quot;        &quot;flight&quot;         &quot;tailnum&quot;       
+[13] &quot;origin&quot;         &quot;dest&quot;           &quot;air_time&quot;       &quot;distance&quot;      
+[17] &quot;hour&quot;           &quot;minute&quot;         &quot;time_hour&quot;      &quot;gain&quot;          
+[21] &quot;hours&quot;          &quot;gain_per_hour&quot; </code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="joining-data-frames.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(flights_joined)</span></code></pre></div>
+<pre><code> [1] &quot;year&quot;           &quot;month&quot;          &quot;day&quot;            &quot;dep_time&quot;      
+ [5] &quot;sched_dep_time&quot; &quot;dep_delay&quot;      &quot;arr_time&quot;       &quot;sched_arr_time&quot;
+ [9] &quot;arr_delay&quot;      &quot;carrier&quot;        &quot;flight&quot;         &quot;tailnum&quot;       
+[13] &quot;origin&quot;         &quot;dest&quot;           &quot;air_time&quot;       &quot;distance&quot;      
+[17] &quot;hour&quot;           &quot;minute&quot;         &quot;time_hour&quot;      &quot;gain&quot;          
+[21] &quot;hours&quot;          &quot;gain_per_hour&quot;  &quot;name&quot;          </code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="joining-data-frames.html#cb98-1" aria-hidden="true" tabindex="-1"></a>flights_joined <span class="sc">%&gt;%</span> <span class="fu">select</span>(flight, carrier, name) </span></code></pre></div>
+<pre><code># A tibble: 336,776 x 3
+   flight carrier name                    
+    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;                   
+ 1   1545 UA      United Air Lines Inc.   
+ 2   1714 UA      United Air Lines Inc.   
+ 3   1141 AA      American Airlines Inc.  
+ 4    725 B6      JetBlue Airways         
+ 5    461 DL      Delta Air Lines Inc.    
+ 6   1696 UA      United Air Lines Inc.   
+ 7    507 B6      JetBlue Airways         
+ 8   5708 EV      ExpressJet Airlines Inc.
+ 9     79 B6      JetBlue Airways         
+10    301 AA      American Airlines Inc.  
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>We observed that the <code>flights</code> and <code>flights_joined</code> are identical except that <code>flights_joined</code> has an additional variable <code>name</code> whose values were drawn from <code>airlines</code>.</p>
+<p>A visual representation of the <code>inner_join</code> is given below:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ijdiagram"></span>
+<img src="images/join-inner.png" alt="Diagram of inner join from R for Data Science" width="400px" />
+<p class="caption">
+Figure 5: Diagram of inner join from R for Data Science
+</p>
+</div>
+<p>There are more complex joins available, but the <code>inner_join</code> will solve nearly all of the problems you'll face in our experience.</p>
+</div>
+<div id="joining-by-key-variables-with-different-names" class="section level3 unnumbered hasAnchor">
+<h3>Joining by "key" variables with different names<a href="joining-data-frames.html#joining-by-key-variables-with-different-names" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Say instead, you are interested in all the destinations of flights from NYC in 2013 and ask yourself:</p>
+<ul>
+<li>"What cities are these airports in?"</li>
+<li>"Is <code>"ORD"</code> Orlando?"</li>
+<li>"Where is <code>"FLL"</code>?</li>
+</ul>
+<p>The <code>airports</code> data frame contains airport codes:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="joining-data-frames.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airports)</span></code></pre></div>
+<pre><code># A tibble: 6 x 8
+  faa   name                             lat   lon   alt    tz dst   tzone      
+  &lt;chr&gt; &lt;chr&gt;                          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;      
+1 04G   Lansdowne Airport               41.1 -80.6  1044    -5 A     America/Ne~
+2 06A   Moton Field Municipal Airport   32.5 -85.7   264    -6 A     America/Ch~
+3 06C   Schaumburg Regional             42.0 -88.1   801    -6 A     America/Ch~
+4 06N   Randall Airport                 41.4 -74.4   523    -5 A     America/Ne~
+5 09J   Jekyll Island Airport           31.1 -81.4    11    -5 A     America/Ne~
+6 0A9   Elizabethton Municipal Airport  36.4 -82.2  1593    -5 A     America/Ne~</code></pre>
+<p>However, looking at both the <code>airports</code> and <code>flights</code> and the visual representation of the relations between the data frames in the figure above, we see that in:</p>
+<ul>
+<li><code>airports</code> the airport code is in the variable <code>faa</code></li>
+<li><code>flights</code> the departure airport code is in the variable <code>origin</code></li>
+</ul>
+<p>So to join these two data sets, our <code>inner_join</code> operation involves a <code>by</code> argument that accounts for the different names:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="joining-data-frames.html#cb102-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb102-2"><a href="joining-data-frames.html#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(airports, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;dest&quot;</span> <span class="ot">=</span> <span class="st">&quot;faa&quot;</span>))</span></code></pre></div>
+<p>Let's construct the sequence of commands that computes the number of flights from NYC to each destination, but also includes information about each destination airport:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="joining-data-frames.html#cb103-1" aria-hidden="true" tabindex="-1"></a>named_dests <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span></span>
+<span id="cb103-2"><a href="joining-data-frames.html#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">%&gt;%</span></span>
+<span id="cb103-3"><a href="joining-data-frames.html#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">num_flights =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb103-4"><a href="joining-data-frames.html#cb103-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_flights)) <span class="sc">%&gt;%</span></span>
+<span id="cb103-5"><a href="joining-data-frames.html#cb103-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(airports, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;dest&quot;</span> <span class="ot">=</span> <span class="st">&quot;faa&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb103-6"><a href="joining-data-frames.html#cb103-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">airport_name =</span> name)</span>
+<span id="cb103-7"><a href="joining-data-frames.html#cb103-7" aria-hidden="true" tabindex="-1"></a>named_dests</span></code></pre></div>
+<pre><code># A tibble: 101 x 9
+   dest  num_flights airport_name             lat    lon   alt    tz dst   tzone
+   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+ 1 ORD         17283 Chicago Ohare Intl      42.0  -87.9   668    -6 A     Amer~
+ 2 ATL         17215 Hartsfield Jackson At~  33.6  -84.4  1026    -5 A     Amer~
+ 3 LAX         16174 Los Angeles Intl        33.9 -118.    126    -8 A     Amer~
+ 4 BOS         15508 General Edward Lawren~  42.4  -71.0    19    -5 A     Amer~
+ 5 MCO         14082 Orlando Intl            28.4  -81.3    96    -5 A     Amer~
+ 6 CLT         14064 Charlotte Douglas Intl  35.2  -80.9   748    -5 A     Amer~
+ 7 SFO         13331 San Francisco Intl      37.6 -122.     13    -8 A     Amer~
+ 8 FLL         12055 Fort Lauderdale Holly~  26.1  -80.2     9    -5 A     Amer~
+ 9 MIA         11728 Miami Intl              25.8  -80.3     8    -5 A     Amer~
+10 DCA          9705 Ronald Reagan Washing~  38.9  -77.0    15    -5 A     Amer~
+# ... with 91 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>In case you didn't know, <code>"ORD"</code> is the airport code of Chicago O'Hare airport and <code>"FLL"</code> is the main airport in Fort Lauderdale, Florida, which we can now see in our <code>named_dests</code> data frame.</p>
+</div>
+<div id="joining-by-multiple-key-variables" class="section level3 unnumbered hasAnchor">
+<h3>Joining by multiple "key" variables<a href="joining-data-frames.html#joining-by-multiple-key-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Say instead we are in a situation where we need to join by multiple variables. For example, in the first figure in this section we see that in order to join the <code>flights</code> and <code>weather</code> data frames, we need more than one key variable: <code>year</code>, <code>month</code>, <code>day</code>, <code>hour</code>, and <code>origin</code>. This is because the combination of these 5 variables act to uniquely identify each observational unit in the <code>weather</code> data frame: hourly weather recordings at each of the 3 NYC airports.</p>
+<p>We achieve this by specifying a vector of key variables to join by using the <code>c()</code> concatenate function. Note the individual variables need to be wrapped in quotation marks.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="joining-data-frames.html#cb105-1" aria-hidden="true" tabindex="-1"></a>flights_weather_joined <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span></span>
+<span id="cb105-2"><a href="joining-data-frames.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(weather, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;hour&quot;</span>, <span class="st">&quot;origin&quot;</span>))</span>
+<span id="cb105-3"><a href="joining-data-frames.html#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights_weather_joined[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">10</span><span class="sc">:</span><span class="dv">11</span>,<span class="dv">22</span><span class="sc">:</span><span class="dv">32</span>)])</span></code></pre></div>
+<pre><code># A tibble: 6 x 17
+   year month   day dep_time carrier flight gain_per~1  temp  dewp humid wind_~2
+  &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1  2013     1     1      517 UA        1545      -2.38  39.0  28.0  64.4     260
+2  2013     1     1      533 UA        1714      -4.23  39.9  25.0  54.8     250
+3  2013     1     1      542 AA        1141     -11.6   39.0  27.0  61.6     260
+4  2013     1     1      544 B6         725       5.57  39.0  27.0  61.6     260
+5  2013     1     1      554 DL         461       9.83  39.9  25.0  54.8     260
+6  2013     1     1      554 UA        1696      -6.4   39.0  28.0  64.4     260
+# ... with 6 more variables: wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;,
+#   pressure &lt;dbl&gt;, visib &lt;dbl&gt;, time_hour.y &lt;dttm&gt;, and abbreviated variable
+#   names 1: gain_per_hour, 2: wind_dir
+# i Use `colnames()` to see all variable names</code></pre>
+<p><br></p>
+<p><strong>Task</strong>
+Looking at the first figure in this section, when joining <code>flights</code> and <code>weather</code> (or, in other words, matching the hourly weather values with each flight), why do we need to join by all of <code>year</code>, <code>month</code>, <code>day</code>, <code>hour</code>, and <code>origin</code>, and not just <code>hour</code>?</p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<p>Because <code>hour</code> is simply a value between 0 and 23; to identify a <strong>specific</strong> hour, we need to also know which <code>year</code>, <code>month</code>, <code>day</code> and at which <code>airport</code>.</p>
+</div>
+<p><br>
+<br></p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="reorder-the-data-frame-using-arrange.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="other-verbs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

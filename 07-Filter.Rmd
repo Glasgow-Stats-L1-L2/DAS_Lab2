@@ -1,0 +1,77 @@
+# Filter observations using filter {-}
+
+```{r filter, echo=FALSE, purl=FALSE, out.width = "50%", fig.pos="h"}
+knitr::include_graphics("images/filter.png")
+```
+
+The `filter` function allows you to specify criteria about values of a variable in your data set and then chooses only those rows that match that criteria.  We begin by returning to the `flights` data frame in the `nycflights13` package, focusing only on flights from New York City to Portland, Oregon.  The `dest` code (or airport code) for Portland, Oregon is `"PDX"`. Run the following and look at the resulting spreadsheet to ensure that only flights heading to Portland are chosen here:
+
+```{r filterex1, echo=TRUE, eval=TRUE}  
+portland_flights <- flights %>% 
+  filter(dest == "PDX")
+head(portland_flights[,seq(-6,-12)]) 
+#We leave out columns 6-11 from the display so we can see the "dest" variable
+```
+
+Note the following:
+
+* The ordering of the commands:
+    + Take the data frame `flights` **then**
+    + `filter` the data frame so that only those where the `dest` equals `"PDX"` are included.
+* The double equal sign `==` for testing for equality, and not `=`. (You are almost guaranteed to make the mistake of only including one equals sign at least once!!)
+
+You can combine multiple criteria together using operators that make comparisons:
+
+- `|` corresponds to "or"
+- `&` corresponds to "and"
+
+We can often skip the use of `&` and just separate our conditions with a comma.  You'll see this in the example below.
+
+In addition, you can use other mathematical checks (similar to `==`):
+
+- `>` corresponds to "greater than"
+- `<` corresponds to "less than"
+- `>=` corresponds to "greater than or equal to"
+- `<=` corresponds to "less than or equal to"
+- `!=` corresponds to "not equal to"
+
+To see many of these in action, let's select all flights that left JFK airport heading to Burlington, Vermont (`"BTV"`) or Seattle, Washington (`"SEA"`) in the months of October, November, or December. This can be done with the following code:
+
+```{r filterex2, eval=TRUE, echo=TRUE}
+btv_sea_flights_fall <- flights %>% 
+  filter(origin == "JFK", (dest == "BTV" | dest == "SEA"), month >= 10)
+head(btv_sea_flights_fall[,-6:-12])
+#We leave out columns 6-11 from the display so we can see the "origin" and "dest" variables
+```
+
+Note: even though colloquially speaking one might say "all flights leaving for Burlington, Vermont **and** Seattle, Washington," in terms of computer logical operations, we really mean "all flights leaving for Burlington, Vermont **or** Seattle, Washington." For a given row in the data, `dest` can be "BTV", "SEA", or something else, but not "BTV" and "SEA" at the same time.
+
+Another example uses the `!` to pick rows that *don't* match a condition. The `!` can be read as "not". Here we are selecting rows corresponding to flights that didn't go to Burlington, VT or Seattle, WA.
+
+```{r filterex3, echo=TRUE}  
+not_BTV_SEA <- flights %>% 
+  filter(!(dest == "BTV" | dest == "SEA"))
+head(not_BTV_SEA[,-6:-12])
+#We leave out columns 6-11 from the display so we can see the "origin" and "dest" variables)
+```
+
+As a final note we point out that `filter()` should often be the first verb you'll apply to your data. This narrows down the data to just the observations you are interested in. 
+
+<br>
+
+**Task**
+What's another way, using the "not" operator `!`, we could filter only the rows that are not going to Burlington nor Seattle in the `flights` data frame? 
+
+```{r Task7-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+not_BTV_SEA <- flights %>% 
+  filter(!dest == "BTV" & !dest == "SEA")
+head(not_BTV_SEA[,-6:-12])
+
+# Alternative way
+not_BTV_SEA <- flights %>% 
+  filter(dest != "BTV" & dest != "SEA")
+head(not_BTV_SEA[,-6:-12])
+```
+
+<br>
+

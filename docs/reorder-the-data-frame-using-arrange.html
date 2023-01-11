@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Reorder the data frame using arrange | Data Analysis: Tidying and Wrangling Data in R</title>
+  <meta name="description" content="Reorder the data frame using arrange | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Reorder the data frame using arrange | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Reorder the data frame using arrange | Data Analysis: Tidying and Wrangling Data in R" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="create-new-variableschange-old-variables-using-mutate.html"/>
+<link rel="next" href="joining-data-frames.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Getting started</a></li>
+<li class="chapter" data-level="" data-path="introducing-tidy-data.html"><a href="introducing-tidy-data.html"><i class="fa fa-check"></i>Introducing "Tidy" Data</a></li>
+<li class="chapter" data-level="" data-path="observational-units.html"><a href="observational-units.html"><i class="fa fa-check"></i>Observational units</a></li>
+<li class="chapter" data-level="" data-path="identification-vs-measurement-variables.html"><a href="identification-vs-measurement-variables.html"><i class="fa fa-check"></i>Identification vs measurement variables</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html"><i class="fa fa-check"></i>Importing spreadsheets into R</a>
+<ul>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-1-from-the-console"><i class="fa fa-check"></i>Method 1: From the console</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-2-using-rstudios-interface"><i class="fa fa-check"></i>Method 2: Using RStudio's interface</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="converting-to-tidy-data-format.html"><a href="converting-to-tidy-data-format.html"><i class="fa fa-check"></i>Converting to "tidy" data format</a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html"><i class="fa fa-check"></i>Introducing data wrangling</a>
+<ul>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#the-pipe"><i class="fa fa-check"></i>The pipe <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#data-wrangling-verbs"><i class="fa fa-check"></i>Data wrangling verbs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="filter-observations-using-filter.html"><a href="filter-observations-using-filter.html"><i class="fa fa-check"></i>Filter observations using filter</a></li>
+<li class="chapter" data-level="" data-path="summarize-variables-using-summarize.html"><a href="summarize-variables-using-summarize.html"><i class="fa fa-check"></i>Summarize variables using summarize</a></li>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html"><i class="fa fa-check"></i>Group rows using <code>group_by</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html#grouping-by-more-than-one-variable"><i class="fa fa-check"></i>Grouping by more than one variable</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="create-new-variableschange-old-variables-using-mutate.html"><a href="create-new-variableschange-old-variables-using-mutate.html"><i class="fa fa-check"></i>Create new variables/change old variables using <code>mutate</code></a></li>
+<li class="chapter" data-level="" data-path="reorder-the-data-frame-using-arrange.html"><a href="reorder-the-data-frame-using-arrange.html"><i class="fa fa-check"></i>Reorder the data frame using <code>arrange</code></a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html"><i class="fa fa-check"></i>Joining data frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables"><i class="fa fa-check"></i>Joining by "key" variables</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables-with-different-names"><i class="fa fa-check"></i>Joining by "key" variables with different names</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-multiple-key-variables"><i class="fa fa-check"></i>Joining by multiple "key" variables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html"><i class="fa fa-check"></i>Other verbs</a>
+<ul>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#select-variables-using-select"><i class="fa fa-check"></i>Select variables using <code>select</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#rename-variables-using-rename"><i class="fa fa-check"></i>Rename variables using <code>rename</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#find-the-top-number-of-values-using-top_n"><i class="fa fa-check"></i>Find the top number of values using <code>top_n</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="further-tasks.html"><a href="further-tasks.html"><i class="fa fa-check"></i>Further Tasks</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Tidying and Wrangling Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reorder-the-data-frame-using-arrange" class="section level1 unnumbered hasAnchor">
+<h1>Reorder the data frame using <code>arrange</code><a href="reorder-the-data-frame-using-arrange.html#reorder-the-data-frame-using-arrange" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The <code>dplyr</code> package has a function called <code>arrange</code> that is used to sort/reorder data frames according to the values of the specified variable. This is often used after we have used the <code>group_by</code> and <code>summarize</code> functions as we will see.</p>
+<p>Let's suppose we were interested in determining the most frequent destination airports from New York City in 2013:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="reorder-the-data-frame-using-arrange.html#cb86-1" aria-hidden="true" tabindex="-1"></a>freq_dest <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb86-2"><a href="reorder-the-data-frame-using-arrange.html#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">%&gt;%</span> </span>
+<span id="cb86-3"><a href="reorder-the-data-frame-using-arrange.html#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">num_flights =</span> <span class="fu">n</span>())</span>
+<span id="cb86-4"><a href="reorder-the-data-frame-using-arrange.html#cb86-4" aria-hidden="true" tabindex="-1"></a>freq_dest</span></code></pre></div>
+<pre><code># A tibble: 105 x 2
+   dest  num_flights
+   &lt;chr&gt;       &lt;int&gt;
+ 1 ABQ           254
+ 2 ACK           265
+ 3 ALB           439
+ 4 ANC             8
+ 5 ATL         17215
+ 6 AUS          2439
+ 7 AVL           275
+ 8 BDL           443
+ 9 BGR           375
+10 BHM           297
+# ... with 95 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>You'll see that by default the values of <code>dest</code> are displayed in alphabetical order here. We are interested in finding those airports that appear most:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="reorder-the-data-frame-using-arrange.html#cb88-1" aria-hidden="true" tabindex="-1"></a>freq_dest <span class="sc">%&gt;%</span> </span>
+<span id="cb88-2"><a href="reorder-the-data-frame-using-arrange.html#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(num_flights)</span></code></pre></div>
+<pre><code># A tibble: 105 x 2
+   dest  num_flights
+   &lt;chr&gt;       &lt;int&gt;
+ 1 LEX             1
+ 2 LGA             1
+ 3 ANC             8
+ 4 SBN            10
+ 5 HDN            15
+ 6 MTJ            15
+ 7 EYW            17
+ 8 PSP            19
+ 9 JAC            25
+10 BZN            36
+# ... with 95 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>This is actually giving us the opposite of what we are looking for. It tells us the least frequent destination airports first. To switch the ordering to be descending instead of ascending we use the <code>desc</code> (<code>desc</code>ending) function:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="reorder-the-data-frame-using-arrange.html#cb90-1" aria-hidden="true" tabindex="-1"></a>freq_dest <span class="sc">%&gt;%</span> </span>
+<span id="cb90-2"><a href="reorder-the-data-frame-using-arrange.html#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_flights))</span></code></pre></div>
+<pre><code># A tibble: 105 x 2
+   dest  num_flights
+   &lt;chr&gt;       &lt;int&gt;
+ 1 ORD         17283
+ 2 ATL         17215
+ 3 LAX         16174
+ 4 BOS         15508
+ 5 MCO         14082
+ 6 CLT         14064
+ 7 SFO         13331
+ 8 FLL         12055
+ 9 MIA         11728
+10 DCA          9705
+# ... with 95 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="create-new-variableschange-old-variables-using-mutate.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="joining-data-frames.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

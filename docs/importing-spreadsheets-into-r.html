@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Importing spreadsheets into R | Data Analysis: Tidying and Wrangling Data in R</title>
+  <meta name="description" content="Importing spreadsheets into R | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Importing spreadsheets into R | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Importing spreadsheets into R | Data Analysis: Tidying and Wrangling Data in R" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="identification-vs-measurement-variables.html"/>
+<link rel="next" href="converting-to-tidy-data-format.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Getting started</a></li>
+<li class="chapter" data-level="" data-path="introducing-tidy-data.html"><a href="introducing-tidy-data.html"><i class="fa fa-check"></i>Introducing "Tidy" Data</a></li>
+<li class="chapter" data-level="" data-path="observational-units.html"><a href="observational-units.html"><i class="fa fa-check"></i>Observational units</a></li>
+<li class="chapter" data-level="" data-path="identification-vs-measurement-variables.html"><a href="identification-vs-measurement-variables.html"><i class="fa fa-check"></i>Identification vs measurement variables</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html"><i class="fa fa-check"></i>Importing spreadsheets into R</a>
+<ul>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-1-from-the-console"><i class="fa fa-check"></i>Method 1: From the console</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-2-using-rstudios-interface"><i class="fa fa-check"></i>Method 2: Using RStudio's interface</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="converting-to-tidy-data-format.html"><a href="converting-to-tidy-data-format.html"><i class="fa fa-check"></i>Converting to "tidy" data format</a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html"><i class="fa fa-check"></i>Introducing data wrangling</a>
+<ul>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#the-pipe"><i class="fa fa-check"></i>The pipe <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#data-wrangling-verbs"><i class="fa fa-check"></i>Data wrangling verbs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="filter-observations-using-filter.html"><a href="filter-observations-using-filter.html"><i class="fa fa-check"></i>Filter observations using filter</a></li>
+<li class="chapter" data-level="" data-path="summarize-variables-using-summarize.html"><a href="summarize-variables-using-summarize.html"><i class="fa fa-check"></i>Summarize variables using summarize</a></li>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html"><i class="fa fa-check"></i>Group rows using <code>group_by</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html#grouping-by-more-than-one-variable"><i class="fa fa-check"></i>Grouping by more than one variable</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="create-new-variableschange-old-variables-using-mutate.html"><a href="create-new-variableschange-old-variables-using-mutate.html"><i class="fa fa-check"></i>Create new variables/change old variables using <code>mutate</code></a></li>
+<li class="chapter" data-level="" data-path="reorder-the-data-frame-using-arrange.html"><a href="reorder-the-data-frame-using-arrange.html"><i class="fa fa-check"></i>Reorder the data frame using <code>arrange</code></a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html"><i class="fa fa-check"></i>Joining data frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables"><i class="fa fa-check"></i>Joining by "key" variables</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables-with-different-names"><i class="fa fa-check"></i>Joining by "key" variables with different names</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-multiple-key-variables"><i class="fa fa-check"></i>Joining by multiple "key" variables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html"><i class="fa fa-check"></i>Other verbs</a>
+<ul>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#select-variables-using-select"><i class="fa fa-check"></i>Select variables using <code>select</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#rename-variables-using-rename"><i class="fa fa-check"></i>Rename variables using <code>rename</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#find-the-top-number-of-values-using-top_n"><i class="fa fa-check"></i>Find the top number of values using <code>top_n</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="further-tasks.html"><a href="further-tasks.html"><i class="fa fa-check"></i>Further Tasks</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Tidying and Wrangling Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="importing-spreadsheets-into-r" class="section level1 unnumbered hasAnchor">
+<h1>Importing spreadsheets into R<a href="importing-spreadsheets-into-r.html#importing-spreadsheets-into-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Up to this point, we've been using data stored inside of an R package. In the real world, your data will usually come from a spreadsheet file either on your computer or online. Spreadsheet data is often saved in one of two formats:</p>
+<ul>
+<li>A <em>Comma Separated Values</em> <code>.csv</code> file. You can think of a CSV file as a bare-bones spreadsheet where:
+<ul>
+<li>Each line in the file corresponds to one row of data/one observation.</li>
+<li>Values for each line are separated with commas. In other words, the values of different variables are separated by commas.</li>
+<li>The first line is often, but not always, a <em>header</em> row indicating the names of the columns/variables.</li>
+</ul></li>
+<li>An Excel <code>.xlsx</code> file. This format is based on Microsoft's proprietary Excel software. As opposed to a bare-bones <code>.csv</code> files, <code>.xlsx</code> Excel files contain a lot of <em>metadata</em>, i.e. data about the data. Examples include the use of bold and italic fonts, colored cells, different column widths, and formula macros etc.</li>
+</ul>
+<p><a href="https://www.google.com/sheets/about/">Google Sheets</a> allows you to download your data in both comma separated values <code>.csv</code> and Excel <code>.xlsx</code> formats: Go to the Google Sheets menu bar -&gt; File -&gt; Download as -&gt; Select "Microsoft Excel" or "Comma-separated values".</p>
+<p>We'll cover two methods for importing data in R: one using the R console and the other using RStudio's graphical interface.</p>
+<div id="method-1-from-the-console" class="section level3 unnumbered hasAnchor">
+<h3>Method 1: From the console<a href="importing-spreadsheets-into-r.html#method-1-from-the-console" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, let's download a <em>Comma Separated Values</em> (CSV) file of ratings of the level of democracy in different countries spanning 1952 to 1992: <a href="https://moderndive.com/data/dem_score.csv" class="uri">https://moderndive.com/data/dem_score.csv</a>. We use the <code>read_csv()</code> function from the <code>readr</code> package to read it off the web and then take a look.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="importing-spreadsheets-into-r.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb29-2"><a href="importing-spreadsheets-into-r.html#cb29-2" aria-hidden="true" tabindex="-1"></a>dem_score <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://moderndive.com/data/dem_score.csv&quot;</span>)</span>
+<span id="cb29-3"><a href="importing-spreadsheets-into-r.html#cb29-3" aria-hidden="true" tabindex="-1"></a>dem_score</span></code></pre></div>
+<pre><code># A tibble: 96 x 10
+   country    `1952` `1957` `1962` `1967` `1972` `1977` `1982` `1987` `1992`
+   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 Albania        -9     -9     -9     -9     -9     -9     -9     -9      5
+ 2 Argentina      -9     -1     -1     -9     -9     -9     -8      8      7
+ 3 Armenia        -9     -7     -7     -7     -7     -7     -7     -7      7
+ 4 Australia      10     10     10     10     10     10     10     10     10
+ 5 Austria        10     10     10     10     10     10     10     10     10
+ 6 Azerbaijan     -9     -7     -7     -7     -7     -7     -7     -7      1
+ 7 Belarus        -9     -7     -7     -7     -7     -7     -7     -7      7
+ 8 Belgium        10     10     10     10     10     10     10     10     10
+ 9 Bhutan        -10    -10    -10    -10    -10    -10    -10    -10    -10
+10 Bolivia        -4     -3     -3     -4     -7     -7      8      9      9
+# ... with 86 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>In this <code>dem_score</code> data frame, the minimum value of -10 corresponds to a highly autocratic nation whereas a value of 10 corresponds to a highly democratic nation.</p>
+</div>
+<div id="method-2-using-rstudios-interface" class="section level3 unnumbered hasAnchor">
+<h3>Method 2: Using RStudio's interface<a href="importing-spreadsheets-into-r.html#method-2-using-rstudios-interface" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let's read in the same data saved in Excel format this time at <a href="https://moderndive.com/data/dem_score.xlsx" class="uri">https://moderndive.com/data/dem_score.xlsx</a>, but using RStudio's graphical interface instead of via the R console. First download the Excel file, then go to the Files pane of RStudio -&gt; Navigate to the directory where your downloaded <code>dem_score.xlsx</code> is saved -&gt; Click on <code>dem_score.xlsx</code> -&gt; Click "Import Dataset..." -&gt; Click "Import Dataset..." At this point you should see an image like in</p>
+<p><img src="images/read_excel.png" width="400px" style="display: block; margin: auto;" /></p>
+<p>After clicking on the "Import" button on the bottom right RStudio save this spreadsheet's data in a data frame called <code>dem_score</code> and display its contents in the spreadsheet viewer. Furthermore you'll see the code that read in your data in the console; you can copy and paste this code to reload your data again later instead of repeating the above manual process.</p>
+<p><br></p>
+<p><strong>Task</strong>
+Read in the life expectancy data stored at <a href="https://moderndive.com/data/le_mess.csv" class="uri">https://moderndive.com/data/le_mess.csv</a>, either using the console below or using RStudio's interface.</p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="importing-spreadsheets-into-r.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb31-2"><a href="importing-spreadsheets-into-r.html#cb31-2" aria-hidden="true" tabindex="-1"></a>life_exp_scores <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://moderndive.com/data/le_mess.csv&quot;</span>)</span>
+<span id="cb31-3"><a href="importing-spreadsheets-into-r.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(life_exp_scores)</span></code></pre></div>
+<pre><code># A tibble: 6 x 67
+  country  `1951` `1952` `1953` `1954` `1955` `1956` `1957` `1958` `1959` `1960`
+  &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 Afghani~   27.1   27.7   28.2   28.7   29.3   29.8   30.3   30.9   31.4   31.9
+2 Albania    54.7   55.2   55.8   56.6   57.4   58.4   59.5   60.6   61.8   62.9
+3 Algeria    43.0   43.5   44.0   44.4   44.9   45.4   45.9   46.4   47.0   47.5
+4 Angola     31.0   31.6   32.1   32.7   33.2   33.8   34.3   34.9   35.4   36.0
+5 Antigua~   58.3   58.8   59.3   59.9   60.4   60.9   61.4   62.0   62.5   63.0
+6 Argenti~   61.9   62.5   63.1   63.6   64.0   64.4   64.7   65     65.2   65.4
+# ... with 56 more variables: `1961` &lt;dbl&gt;, `1962` &lt;dbl&gt;, `1963` &lt;dbl&gt;,
+#   `1964` &lt;dbl&gt;, `1965` &lt;dbl&gt;, `1966` &lt;dbl&gt;, `1967` &lt;dbl&gt;, `1968` &lt;dbl&gt;,
+#   `1969` &lt;dbl&gt;, `1970` &lt;dbl&gt;, `1971` &lt;dbl&gt;, `1972` &lt;dbl&gt;, `1973` &lt;dbl&gt;,
+#   `1974` &lt;dbl&gt;, `1975` &lt;dbl&gt;, `1976` &lt;dbl&gt;, `1977` &lt;dbl&gt;, `1978` &lt;dbl&gt;,
+#   `1979` &lt;dbl&gt;, `1980` &lt;dbl&gt;, `1981` &lt;dbl&gt;, `1982` &lt;dbl&gt;, `1983` &lt;dbl&gt;,
+#   `1984` &lt;dbl&gt;, `1985` &lt;dbl&gt;, `1986` &lt;dbl&gt;, `1987` &lt;dbl&gt;, `1988` &lt;dbl&gt;,
+#   `1989` &lt;dbl&gt;, `1990` &lt;dbl&gt;, `1991` &lt;dbl&gt;, `1992` &lt;dbl&gt;, `1993` &lt;dbl&gt;, ...
+# i Use `colnames()` to see all variable names</code></pre>
+</div>
+<p><br>
+<br></p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="identification-vs-measurement-variables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="converting-to-tidy-data-format.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

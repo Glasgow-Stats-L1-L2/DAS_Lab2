@@ -1,0 +1,42 @@
+# Identification vs measurement variables {-}
+
+There is a subtle difference between the kinds of variables that you will encounter in data frames: *measurement variables* and *identification variables*.  The `airports` data frame you worked with above contains both these types of variables.  Recall that in `airports` the observational unit is an airport, and thus each row corresponds to one particular airport.  Let's pull them apart using the `glimpse` function:
+
+```{r}
+glimpse(airports)
+```
+
+The variables `faa` and `name` are what we will call *identification variables*: variables that uniquely identify each observational unit. They are mainly used to provide a unique name to each observational unit, thereby allowing us to uniquely identify them. `faa` gives the unique code provided by the Federal Aviation Administration in the USA for that airport, while the `name` variable gives the longer more natural name of the airport.  The remaining variables (`lat`, `lon`, `alt`, `tz`, `dst`, `tzone`) are often called *measurement* or *characteristic* variables: variables that describe properties of each observational unit, in other words each observation in each row. For example, `lat` and `long` describe the latitude and longitude of each airport.
+
+Furthermore, sometimes a single variable might not be enough to uniquely identify each observational unit: combinations of variables might be needed (see *Task* below). While it is not an absolute rule, for organizational purposes it is considered good practice to have your identification variables in the far left-most columns of your data frame.
+
+<br>
+
+**Task**
+What properties of the observational unit do each of `lat`, `lon`, `alt`, `tz`, `dst`, and `tzone` describe for the `airports` data frame?
+
+`r hide("Hint")`
+Use the `help()` or `?` function.
+`r unhide()`
+
+```{r Task3-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+?airports
+#`lat` `long` represent the airport geographic coordinates, 
+#`alt` is the altitude above sea level of the airport 
+#`tz` is the time zone difference with respect to GMT in London UK, 
+#`dst` is the daylight savings time zone, and `tzone` is the time zone label.
+```
+
+<br>
+
+**Task**
+From the data sets listed above, find an example where combinations of variables are needed to uniquely identify each observational unit.
+
+`r hide("Solution")`
+* In the `weather` data set, the combination of `origin`, `year`, `month`, `day`, `hour`  are identification variables as they identify the observation in question.
+* Everything else pertains to observations: `temp`, `humid`, `wind_speed`, etc.
+`r unhide()`
+
+<br>
+<br>
+

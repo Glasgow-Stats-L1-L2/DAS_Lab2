@@ -1,0 +1,30 @@
+# Introducing data wrangling {-}
+
+We are now able to import data and perform basic operations on the data to get it into "tidy" format.  In this and subsequent sections we will use tools from the `dplyr` package to perform data "wrangling" which includes transforming, mapping and summarizing variables in our data.
+
+### The pipe `%>%` {-}
+
+Before we dig into data wrangling, let's first introduce the pipe operator (`%>%`). Just as the `+` sign was used to add layers to a plot created using `ggplot()`, the pipe operator allows us to chain together `dplyr` data wrangling functions. The pipe operator can be read as "*then*". The `%>%` operator allows us to go from one step in `dplyr` to the next easily so we can, for example:
+
+* specify a particular data frame to work with **then**
+* `filter` our data frame to only focus on a few rows **then**
+* `group_by` another variable to create groups **then**
+* `summarize` this grouped data to calculate the mean for each level of the group.
+
+The piping syntax will be our major focus throughout the rest of this course and you'll find that you'll quickly be addicted to the chaining with some practice.
+
+
+### Data wrangling verbs {-}
+
+The `d` in `dplyr` stands for data frames, so the functions in `dplyr` are built for working with objects of the data frame type. For now, we focus on the most commonly used functions that help wrangle and summarize data. A description of these verbs follows, with each subsequent section devoted to an example of that verb, or a combination of a few verbs, in action.
+
+1. `filter()`: Pick rows based on conditions about their values
+1. `summarize()`: Compute summary measures known as "summary statistics" of variables
+1. `group_by()`: Group rows of observations together
+1. `mutate()`: Create a new variable in the data frame by mutating existing ones
+1. `arrange()`: Arrange/sort the rows based on one or more variables
+1. `join()`: Join/merge two data frames by matching along a "key" variable. There are many different `join()`s available. Here, we will focus on the `inner_join()` function.
+
+<br>
+<br>
+

@@ -1,0 +1,125 @@
+# Introducing "Tidy" Data {-}
+
+From the 'Introduction to R Programming' course we are familiar with a data frame in R: a rectangular spreadsheet-like representation of data in R where the rows correspond to observations and the columns correspond to variables describing each observation.  In Week 1 of Data Analysis, we started explorations of our first data frame `flights` included in the `nycflights13` package by creating graphics using this data frame. 
+
+In this session, we extend some of these ideas by discussing a type of data formatting called **tidy** data. Beyond just being organized, in the context of the `tidyverse` having **tidy** data means that your data follows a standardized format. This makes it easier for you and others to visualize your data, to wrangle/transform your data, and to model your data. We will follow Hadley Wickham's definition of *tidy data* here:
+
+> A dataset is a collection of values, usually either numbers (if quantitative)
+or strings/text data (if qualitative). Values are organised in two ways.
+Every value belongs to a variable and an observation. A variable contains all
+values that measure the same underlying attribute (like height, temperature,
+duration) across units. An observation contains all values measured on the same
+unit (like a person, or a day, or a city) across attributes.
+
+> Tidy data is a standard way of mapping the meaning of a dataset to its
+structure. A dataset is messy or tidy depending on how rows, columns and tables
+are matched up with observations, variables and types. In *tidy data*:
+
+> 1. Each variable forms a column.
+> 2. Each observation forms a row.
+> 3. Each type of observational unit forms a table.
+
+```{r tidyfig, echo=FALSE, fig.cap="Tidy data graphic from http://r4ds.had.co.nz/tidy-data.html", out.width = "400px", fig.pos="h"}
+knitr::include_graphics("images/tidy-1.png",dpi = 300)
+```
+
+For example, say the following table consists of stock prices:
+
+```{r echo=FALSE, warning = FALSE}
+ stocks <- data_frame(
+   Date = as.Date('2009-01-01') + 0:4,
+   `Boeing Stock Price` = paste("$", c("173.55", "172.61", "173.86", "170.77", "174.29"), sep = ""),
+   `Amazon Stock Price` = paste("$", c("174.90", "171.42", "171.58", "173.89", "170.16"), sep = ""),
+   `Google Stock Price` = paste("$", c("174.34", "170.04", "173.65", "174.87", "172.19") ,sep = "")
+ ) %>%
+   slice(1:2)
+  stocks %>%
+    kable(
+      digits = 2,
+      caption = "Stock Prices (Non-Tidy Format)",
+      booktabs = TRUE
+    )
+```
+
+Although the data are neatly organized in a spreadsheet-type format, they are not in tidy format since there are three variables corresponding to three unique pieces of information (Date, Stock Name, and Stock Price), but there are not three columns. In tidy data format each variable should be its own column, as shown below. Notice that both tables present the same information, but in different formats. 
+
+```{r echo=FALSE, warning = FALSE}
+ stocks_tidy <- stocks %>% 
+   rename(
+     Boeing = `Boeing Stock Price`,
+     Amazon = `Amazon Stock Price`,
+     Google = `Google Stock Price`
+   ) %>% 
+   gather(`Stock Name`, `Stock Price`, -Date)
+ stocks_tidy %>%
+   kable(
+     digits = 2,
+     caption = "Stock Prices (Tidy Format)",
+     booktabs = TRUE
+   )
+```
+
+However, consider the following table:
+
+```{r echo=FALSE, warning = FALSE}
+ stocks <- data_frame(
+   Date = as.Date('2009-01-01') + 0:4,
+   `Boeing Price` = paste("$", c("173.55", "172.61", "173.86", "170.77", "174.29"), sep = ""),
+   `Weather` = c("Sunny", "Overcast", "Rain", "Rain", "Sunny")
+ ) %>%
+   slice(1:2)
+ stocks %>%
+   kable(
+     digits = 2,
+     caption = "Date, Boeing Price, Weather Data",
+     booktabs = TRUE
+   )
+```
+
+In this case, even though the variable "Boeing Price" occurs again, the data *is* tidy since there are three variables corresponding to three unique pieces of information (Date, Boeing stock price, and the weather that particular day).
+
+The non-tidy data format in the original table is also known as ["wide"](https://en.wikipedia.org/wiki/Wide_and_narrow_data) format whereas the tidy data format in the second table is also known as ["long/narrow"](https://en.wikipedia.org/wiki/Wide_and_narrow_data#Narrow) data format. 
+
+In this course, we will work mostly with data sets that are already in tidy format even though a lot of the world's data isn't always in this nice format. 
+
+<br>
+
+**Task**
+Consider the following data frame of average number of servings of beer, spirits, and wine consumption in three countries as reported in the FiveThirtyEight article [Where Do People Drink The Most Beer, Wine And Spirits?](https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/)
+
+```{r echo=FALSE}
+drinks_sub <- drinks %>%
+  select(-total_litres_of_pure_alcohol) %>% 
+  filter(country %in% c("USA", "Canada", "South Korea"))
+drinks_sub_tidy <- drinks_sub %>%
+  gather(type, servings, -c(country)) %>%
+  mutate(
+    type = str_sub(type, start=1, end=-10)
+  ) %>%
+  arrange(country, type) %>% 
+  rename(`alcohol type` = type)
+drinks_sub
+```
+
+This data frame is not in tidy format. What would it look like if it were? Try and reproduce the table above in tidy format just by typing/copying/pasting text (i.e. DON'T use R code here).
+
+`r hide("Hint")`
+There are three variables of information included: country, alcohol type, and number of servings. In tidy format, each of these variables of information are included in their own column.
+`r unhide()`
+
+```{r Task1-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+# country       alcohol type    servings
+# Canada	      beer	          240
+# Canada	      spirit	      122
+# Canada	      wine	          100
+# South Korea	  beer	          140
+# South Korea	  spirit	      16
+# South Korea	  wine	          9
+# USA	          beer	          249
+# USA	          spirit	      158
+# USA	          wine	          84
+```
+
+<br>
+<br>
+

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Other verbs | Data Analysis: Tidying and Wrangling Data in R</title>
+  <meta name="description" content="Other verbs | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Other verbs | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Other verbs | Data Analysis: Tidying and Wrangling Data in R" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="joining-data-frames.html"/>
+<link rel="next" href="summary.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Getting started</a></li>
+<li class="chapter" data-level="" data-path="introducing-tidy-data.html"><a href="introducing-tidy-data.html"><i class="fa fa-check"></i>Introducing "Tidy" Data</a></li>
+<li class="chapter" data-level="" data-path="observational-units.html"><a href="observational-units.html"><i class="fa fa-check"></i>Observational units</a></li>
+<li class="chapter" data-level="" data-path="identification-vs-measurement-variables.html"><a href="identification-vs-measurement-variables.html"><i class="fa fa-check"></i>Identification vs measurement variables</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html"><i class="fa fa-check"></i>Importing spreadsheets into R</a>
+<ul>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-1-from-the-console"><i class="fa fa-check"></i>Method 1: From the console</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-2-using-rstudios-interface"><i class="fa fa-check"></i>Method 2: Using RStudio's interface</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="converting-to-tidy-data-format.html"><a href="converting-to-tidy-data-format.html"><i class="fa fa-check"></i>Converting to "tidy" data format</a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html"><i class="fa fa-check"></i>Introducing data wrangling</a>
+<ul>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#the-pipe"><i class="fa fa-check"></i>The pipe <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#data-wrangling-verbs"><i class="fa fa-check"></i>Data wrangling verbs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="filter-observations-using-filter.html"><a href="filter-observations-using-filter.html"><i class="fa fa-check"></i>Filter observations using filter</a></li>
+<li class="chapter" data-level="" data-path="summarize-variables-using-summarize.html"><a href="summarize-variables-using-summarize.html"><i class="fa fa-check"></i>Summarize variables using summarize</a></li>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html"><i class="fa fa-check"></i>Group rows using <code>group_by</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html#grouping-by-more-than-one-variable"><i class="fa fa-check"></i>Grouping by more than one variable</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="create-new-variableschange-old-variables-using-mutate.html"><a href="create-new-variableschange-old-variables-using-mutate.html"><i class="fa fa-check"></i>Create new variables/change old variables using <code>mutate</code></a></li>
+<li class="chapter" data-level="" data-path="reorder-the-data-frame-using-arrange.html"><a href="reorder-the-data-frame-using-arrange.html"><i class="fa fa-check"></i>Reorder the data frame using <code>arrange</code></a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html"><i class="fa fa-check"></i>Joining data frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables"><i class="fa fa-check"></i>Joining by "key" variables</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables-with-different-names"><i class="fa fa-check"></i>Joining by "key" variables with different names</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-multiple-key-variables"><i class="fa fa-check"></i>Joining by multiple "key" variables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html"><i class="fa fa-check"></i>Other verbs</a>
+<ul>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#select-variables-using-select"><i class="fa fa-check"></i>Select variables using <code>select</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#rename-variables-using-rename"><i class="fa fa-check"></i>Rename variables using <code>rename</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#find-the-top-number-of-values-using-top_n"><i class="fa fa-check"></i>Find the top number of values using <code>top_n</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="further-tasks.html"><a href="further-tasks.html"><i class="fa fa-check"></i>Further Tasks</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Tidying and Wrangling Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="other-verbs" class="section level1 unnumbered hasAnchor">
+<h1>Other verbs<a href="other-verbs.html#other-verbs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="select-variables-using-select" class="section level3 unnumbered hasAnchor">
+<h3>Select variables using <code>select</code><a href="other-verbs.html#select-variables-using-select" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:selectfig"></span>
+<img src="images/select.png" alt="Select diagram from Data Wrangling with dplyr and tidyr cheatsheet" width="400px" />
+<p class="caption">
+Figure 6: Select diagram from Data Wrangling with dplyr and tidyr cheatsheet
+</p>
+</div>
+<p>We've seen that the <code>flights</code> data frame in the <code>nycflights13</code> package contains many different variables. The <code>names</code> function gives a listing of all the columns in a data frame; in our case you would run <code>names(flights)</code>. You can also identify these variables by running the <code>glimpse</code> function in the <code>dplyr</code> package:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="other-verbs.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(flights)</span></code></pre></div>
+<pre><code>Rows: 336,776
+Columns: 22
+$ year           &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2~
+$ month          &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+$ day            &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+$ dep_time       &lt;int&gt; 517, 533, 542, 544, 554, 554, 555, 557, 557, 558, 558, ~
+$ sched_dep_time &lt;int&gt; 515, 529, 540, 545, 600, 558, 600, 600, 600, 600, 600, ~
+$ dep_delay      &lt;dbl&gt; 2, 4, 2, -1, -6, -4, -5, -3, -3, -2, -2, -2, -2, -2, -1~
+$ arr_time       &lt;int&gt; 830, 850, 923, 1004, 812, 740, 913, 709, 838, 753, 849,~
+$ sched_arr_time &lt;int&gt; 819, 830, 850, 1022, 837, 728, 854, 723, 846, 745, 851,~
+$ arr_delay      &lt;dbl&gt; 11, 20, 33, -18, -25, 12, 19, -14, -8, 8, -2, -3, 7, -1~
+$ carrier        &lt;chr&gt; &quot;UA&quot;, &quot;UA&quot;, &quot;AA&quot;, &quot;B6&quot;, &quot;DL&quot;, &quot;UA&quot;, &quot;B6&quot;, &quot;EV&quot;, &quot;B6&quot;, &quot;~
+$ flight         &lt;int&gt; 1545, 1714, 1141, 725, 461, 1696, 507, 5708, 79, 301, 4~
+$ tailnum        &lt;chr&gt; &quot;N14228&quot;, &quot;N24211&quot;, &quot;N619AA&quot;, &quot;N804JB&quot;, &quot;N668DN&quot;, &quot;N394~
+$ origin         &lt;chr&gt; &quot;EWR&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;JFK&quot;, &quot;LGA&quot;, &quot;EWR&quot;, &quot;EWR&quot;, &quot;LGA&quot;,~
+$ dest           &lt;chr&gt; &quot;IAH&quot;, &quot;IAH&quot;, &quot;MIA&quot;, &quot;BQN&quot;, &quot;ATL&quot;, &quot;ORD&quot;, &quot;FLL&quot;, &quot;IAD&quot;,~
+$ air_time       &lt;dbl&gt; 227, 227, 160, 183, 116, 150, 158, 53, 140, 138, 149, 1~
+$ distance       &lt;dbl&gt; 1400, 1416, 1089, 1576, 762, 719, 1065, 229, 944, 733, ~
+$ hour           &lt;dbl&gt; 5, 5, 5, 5, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6~
+$ minute         &lt;dbl&gt; 15, 29, 40, 45, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 0~
+$ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 0~
+$ gain           &lt;dbl&gt; -9, -16, -31, 17, 19, -16, -24, 11, 5, -10, 0, 1, -9, 1~
+$ hours          &lt;dbl&gt; 3.7833333, 3.7833333, 2.6666667, 3.0500000, 1.9333333, ~
+$ gain_per_hour  &lt;dbl&gt; -2.3788546, -4.2290749, -11.6250000, 5.5737705, 9.82758~</code></pre>
+<p>However, say you only want to consider two of these variables, say <code>carrier</code> and <code>flight</code>. You can <code>select</code> these:</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="other-verbs.html#cb109-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb109-2"><a href="other-verbs.html#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(carrier, flight)</span></code></pre></div>
+<pre><code># A tibble: 336,776 x 2
+   carrier flight
+   &lt;chr&gt;    &lt;int&gt;
+ 1 UA        1545
+ 2 UA        1714
+ 3 AA        1141
+ 4 B6         725
+ 5 DL         461
+ 6 UA        1696
+ 7 B6         507
+ 8 EV        5708
+ 9 B6          79
+10 AA         301
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>This function makes navigating data sets with a very large number of variables easier for humans by restricting consideration to only those of interest, like <code>carrier</code> and <code>flight</code> above. So for example, this might make viewing the data set using the <code>View()</code> spreadsheet viewer more digestible. However, as far as the computer is concerned it doesn't care how many variables additional variables are in the data set in question, so long as <code>carrier</code> and <code>flight</code> are included.</p>
+<p>Another example involves the variable <code>year</code>. If you remember the original description of the <code>flights</code> data frame (or by running <code>?flights</code>), you'll remember that this data correspond to flights in 2013 departing New York City. The <code>year</code> variable isn't really a variable here in that it doesn't vary... <code>flights</code> actually comes from a larger data set that covers many years. We may want to remove the <code>year</code> variable from our data set since it won't be helpful for analysis in this case. We can deselect <code>year</code> by using the <code>-</code> sign:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="other-verbs.html#cb111-1" aria-hidden="true" tabindex="-1"></a>flights_no_year <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb111-2"><a href="other-verbs.html#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
+<span id="cb111-3"><a href="other-verbs.html#cb111-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(flights_no_year)</span></code></pre></div>
+<pre><code> [1] &quot;month&quot;          &quot;day&quot;            &quot;dep_time&quot;       &quot;sched_dep_time&quot;
+ [5] &quot;dep_delay&quot;      &quot;arr_time&quot;       &quot;sched_arr_time&quot; &quot;arr_delay&quot;     
+ [9] &quot;carrier&quot;        &quot;flight&quot;         &quot;tailnum&quot;        &quot;origin&quot;        
+[13] &quot;dest&quot;           &quot;air_time&quot;       &quot;distance&quot;       &quot;hour&quot;          
+[17] &quot;minute&quot;         &quot;time_hour&quot;      &quot;gain&quot;           &quot;hours&quot;         
+[21] &quot;gain_per_hour&quot; </code></pre>
+<p>Or we could specify a ranges of columns:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="other-verbs.html#cb113-1" aria-hidden="true" tabindex="-1"></a>flight_arr_times <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb113-2"><a href="other-verbs.html#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(month<span class="sc">:</span>dep_time, arr_time<span class="sc">:</span>sched_arr_time)</span>
+<span id="cb113-3"><a href="other-verbs.html#cb113-3" aria-hidden="true" tabindex="-1"></a>flight_arr_times</span></code></pre></div>
+<pre><code># A tibble: 336,776 x 5
+   month   day dep_time arr_time sched_arr_time
+   &lt;int&gt; &lt;int&gt;    &lt;int&gt;    &lt;int&gt;          &lt;int&gt;
+ 1     1     1      517      830            819
+ 2     1     1      533      850            830
+ 3     1     1      542      923            850
+ 4     1     1      544     1004           1022
+ 5     1     1      554      812            837
+ 6     1     1      554      740            728
+ 7     1     1      555      913            854
+ 8     1     1      557      709            723
+ 9     1     1      557      838            846
+10     1     1      558      753            745
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>The <code>select</code> function can also be used to reorder columns in combination with the <code>everything</code> helper function. Let's suppose we'd like the <code>hour</code>, <code>minute</code>, and <code>time_hour</code> variables, which appear at the end of the <code>flights</code> data set, to actually appear immediately after the <code>day</code> variable:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="other-verbs.html#cb115-1" aria-hidden="true" tabindex="-1"></a>flights_reorder <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb115-2"><a href="other-verbs.html#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(month<span class="sc">:</span>day, hour<span class="sc">:</span>time_hour, <span class="fu">everything</span>())</span>
+<span id="cb115-3"><a href="other-verbs.html#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(flights_reorder)</span></code></pre></div>
+<pre><code> [1] &quot;month&quot;          &quot;day&quot;            &quot;hour&quot;           &quot;minute&quot;        
+ [5] &quot;time_hour&quot;      &quot;year&quot;           &quot;dep_time&quot;       &quot;sched_dep_time&quot;
+ [9] &quot;dep_delay&quot;      &quot;arr_time&quot;       &quot;sched_arr_time&quot; &quot;arr_delay&quot;     
+[13] &quot;carrier&quot;        &quot;flight&quot;         &quot;tailnum&quot;        &quot;origin&quot;        
+[17] &quot;dest&quot;           &quot;air_time&quot;       &quot;distance&quot;       &quot;gain&quot;          
+[21] &quot;hours&quot;          &quot;gain_per_hour&quot; </code></pre>
+<p>in this case <code>everything()</code> picks up all remaining variables. Lastly, the helper functions <code>starts_with</code>, <code>ends_with</code>, and <code>contains</code> can be used to choose <strong>variables/column names</strong> that match those conditions:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="other-verbs.html#cb117-1" aria-hidden="true" tabindex="-1"></a>flights_begin_a <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb117-2"><a href="other-verbs.html#cb117-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">&quot;a&quot;</span>))</span>
+<span id="cb117-3"><a href="other-verbs.html#cb117-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights_begin_a)</span></code></pre></div>
+<pre><code># A tibble: 6 x 3
+  arr_time arr_delay air_time
+     &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1      830        11      227
+2      850        20      227
+3      923        33      160
+4     1004       -18      183
+5      812       -25      116
+6      740        12      150</code></pre>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="other-verbs.html#cb119-1" aria-hidden="true" tabindex="-1"></a>flights_delays <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb119-2"><a href="other-verbs.html#cb119-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">&quot;delay&quot;</span>))</span>
+<span id="cb119-3"><a href="other-verbs.html#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights_delays)</span></code></pre></div>
+<pre><code># A tibble: 6 x 2
+  dep_delay arr_delay
+      &lt;dbl&gt;     &lt;dbl&gt;
+1         2        11
+2         4        20
+3         2        33
+4        -1       -18
+5        -6       -25
+6        -4        12</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="other-verbs.html#cb121-1" aria-hidden="true" tabindex="-1"></a>flights_time <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb121-2"><a href="other-verbs.html#cb121-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">&quot;time&quot;</span>))</span>
+<span id="cb121-3"><a href="other-verbs.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights_time)</span></code></pre></div>
+<pre><code># A tibble: 6 x 6
+  dep_time sched_dep_time arr_time sched_arr_time air_time time_hour          
+     &lt;int&gt;          &lt;int&gt;    &lt;int&gt;          &lt;int&gt;    &lt;dbl&gt; &lt;dttm&gt;             
+1      517            515      830            819      227 2013-01-01 05:00:00
+2      533            529      850            830      227 2013-01-01 05:00:00
+3      542            540      923            850      160 2013-01-01 05:00:00
+4      544            545     1004           1022      183 2013-01-01 05:00:00
+5      554            600      812            837      116 2013-01-01 06:00:00
+6      554            558      740            728      150 2013-01-01 05:00:00</code></pre>
+</div>
+<div id="rename-variables-using-rename" class="section level3 unnumbered hasAnchor">
+<h3>Rename variables using <code>rename</code><a href="other-verbs.html#rename-variables-using-rename" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another useful function is <code>rename</code>, which as you may suspect renames one column to another name. Suppose we wanted <code>dep_time</code> and <code>arr_time</code> to be <code>departure_time</code> and <code>arrival_time</code> instead in the <code>flights_time</code> data frame:</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="other-verbs.html#cb123-1" aria-hidden="true" tabindex="-1"></a>flights_time <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb123-2"><a href="other-verbs.html#cb123-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">&quot;time&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb123-3"><a href="other-verbs.html#cb123-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">departure_time =</span> dep_time,</span>
+<span id="cb123-4"><a href="other-verbs.html#cb123-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">arrival_time =</span> arr_time)</span>
+<span id="cb123-5"><a href="other-verbs.html#cb123-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(flights_time)</span></code></pre></div>
+<pre><code>[1] &quot;departure_time&quot; &quot;sched_dep_time&quot; &quot;arrival_time&quot;   &quot;sched_arr_time&quot;
+[5] &quot;air_time&quot;       &quot;time_hour&quot;     </code></pre>
+<p>Note that in this case we used a single <code>=</code> sign with the <code>rename()</code>. e.g.. <code>departure_time = dep_time</code>. This is because we are not testing for equality like we would using <code>==</code>, but instead we want to assign a new variable <code>departure_time</code> to have the same values as <code>dep_time</code> and then delete the variable <code>dep_time</code>.</p>
+<p>It's easy to forget if the new name comes before or after the equals sign. I usually remember this as "New Before, Old After" or NBOA. You'll receive an error if you try to do it the other way:</p>
+<pre><code>Error: Unknown variables: departure_time, arrival_time.</code></pre>
+</div>
+<div id="find-the-top-number-of-values-using-top_n" class="section level3 unnumbered hasAnchor">
+<h3>Find the top number of values using <code>top_n</code><a href="other-verbs.html#find-the-top-number-of-values-using-top_n" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can also use the <code>top_n</code> function which automatically tells us the most frequent <code>num_flights</code>. We specify the top 10 airports here:</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="other-verbs.html#cb126-1" aria-hidden="true" tabindex="-1"></a>named_dests <span class="sc">%&gt;%</span> </span>
+<span id="cb126-2"><a href="other-verbs.html#cb126-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">wt =</span> num_flights)</span></code></pre></div>
+<pre><code># A tibble: 10 x 9
+   dest  num_flights airport_name             lat    lon   alt    tz dst   tzone
+   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+ 1 ORD         17283 Chicago Ohare Intl      42.0  -87.9   668    -6 A     Amer~
+ 2 ATL         17215 Hartsfield Jackson At~  33.6  -84.4  1026    -5 A     Amer~
+ 3 LAX         16174 Los Angeles Intl        33.9 -118.    126    -8 A     Amer~
+ 4 BOS         15508 General Edward Lawren~  42.4  -71.0    19    -5 A     Amer~
+ 5 MCO         14082 Orlando Intl            28.4  -81.3    96    -5 A     Amer~
+ 6 CLT         14064 Charlotte Douglas Intl  35.2  -80.9   748    -5 A     Amer~
+ 7 SFO         13331 San Francisco Intl      37.6 -122.     13    -8 A     Amer~
+ 8 FLL         12055 Fort Lauderdale Holly~  26.1  -80.2     9    -5 A     Amer~
+ 9 MIA         11728 Miami Intl              25.8  -80.3     8    -5 A     Amer~
+10 DCA          9705 Ronald Reagan Washing~  38.9  -77.0    15    -5 A     Amer~</code></pre>
+<p>We'll still need to arrange this by <code>num_flights</code> though:</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="other-verbs.html#cb128-1" aria-hidden="true" tabindex="-1"></a>named_dests  <span class="sc">%&gt;%</span> </span>
+<span id="cb128-2"><a href="other-verbs.html#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">wt =</span> num_flights) <span class="sc">%&gt;%</span> </span>
+<span id="cb128-3"><a href="other-verbs.html#cb128-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_flights))</span></code></pre></div>
+<pre><code># A tibble: 10 x 9
+   dest  num_flights airport_name             lat    lon   alt    tz dst   tzone
+   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+ 1 ORD         17283 Chicago Ohare Intl      42.0  -87.9   668    -6 A     Amer~
+ 2 ATL         17215 Hartsfield Jackson At~  33.6  -84.4  1026    -5 A     Amer~
+ 3 LAX         16174 Los Angeles Intl        33.9 -118.    126    -8 A     Amer~
+ 4 BOS         15508 General Edward Lawren~  42.4  -71.0    19    -5 A     Amer~
+ 5 MCO         14082 Orlando Intl            28.4  -81.3    96    -5 A     Amer~
+ 6 CLT         14064 Charlotte Douglas Intl  35.2  -80.9   748    -5 A     Amer~
+ 7 SFO         13331 San Francisco Intl      37.6 -122.     13    -8 A     Amer~
+ 8 FLL         12055 Fort Lauderdale Holly~  26.1  -80.2     9    -5 A     Amer~
+ 9 MIA         11728 Miami Intl              25.8  -80.3     8    -5 A     Amer~
+10 DCA          9705 Ronald Reagan Washing~  38.9  -77.0    15    -5 A     Amer~</code></pre>
+<p><strong>Note:</strong> Remember that I didn't pull the <code>n</code> and <code>wt</code> arguments out of thin air. They can be found by using the <code>?</code> function on <code>top_n</code>.</p>
+<p>We can go one step further and tie together the <code>group_by</code> and <code>summarize</code> functions we used to find the most frequent flights:</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="other-verbs.html#cb130-1" aria-hidden="true" tabindex="-1"></a>ten_freq_dests <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span></span>
+<span id="cb130-2"><a href="other-verbs.html#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">%&gt;%</span></span>
+<span id="cb130-3"><a href="other-verbs.html#cb130-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">num_flights =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb130-4"><a href="other-verbs.html#cb130-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_flights)) <span class="sc">%&gt;%</span></span>
+<span id="cb130-5"><a href="other-verbs.html#cb130-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="at">n =</span> <span class="dv">10</span>) </span>
+<span id="cb130-6"><a href="other-verbs.html#cb130-6" aria-hidden="true" tabindex="-1"></a>ten_freq_dests</span></code></pre></div>
+<pre><code># A tibble: 10 x 2
+   dest  num_flights
+   &lt;chr&gt;       &lt;int&gt;
+ 1 ORD         17283
+ 2 ATL         17215
+ 3 LAX         16174
+ 4 BOS         15508
+ 5 MCO         14082
+ 6 CLT         14064
+ 7 SFO         13331
+ 8 FLL         12055
+ 9 MIA         11728
+10 DCA          9705</code></pre>
+<p><br></p>
+<p><strong>Task</strong>
+What are some ways to select all three of the <code>dest</code>, <code>air_time</code>, and <code>distance</code> variables from <code>flights</code>? Give the code showing how to do this in at least three different ways.</p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="other-verbs.html#cb132-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb132-2"><a href="other-verbs.html#cb132-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dest, air_time, distance)</span></code></pre></div>
+<pre><code># A tibble: 336,776 x 3
+   dest  air_time distance
+   &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 IAH        227     1400
+ 2 IAH        227     1416
+ 3 MIA        160     1089
+ 4 BQN        183     1576
+ 5 ATL        116      762
+ 6 ORD        150      719
+ 7 FLL        158     1065
+ 8 IAD         53      229
+ 9 MCO        140      944
+10 ORD        138      733
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="other-verbs.html#cb134-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb134-2"><a href="other-verbs.html#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dest<span class="sc">:</span>distance)</span></code></pre></div>
+<pre><code># A tibble: 336,776 x 3
+   dest  air_time distance
+   &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 IAH        227     1400
+ 2 IAH        227     1416
+ 3 MIA        160     1089
+ 4 BQN        183     1576
+ 5 ATL        116      762
+ 6 ORD        150      719
+ 7 FLL        158     1065
+ 8 IAD         53      229
+ 9 MCO        140      944
+10 ORD        138      733
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="other-verbs.html#cb136-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb136-2"><a href="other-verbs.html#cb136-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year, <span class="sc">-</span>month, <span class="sc">-</span>day, <span class="sc">-</span>dep_time, <span class="sc">-</span>sched_dep_time, <span class="sc">-</span>dep_delay, <span class="sc">-</span>arr_time,</span>
+<span id="cb136-3"><a href="other-verbs.html#cb136-3" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>sched_arr_time, <span class="sc">-</span>arr_delay, <span class="sc">-</span>carrier, <span class="sc">-</span>flight, <span class="sc">-</span>tailnum, <span class="sc">-</span>origin, </span>
+<span id="cb136-4"><a href="other-verbs.html#cb136-4" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>hour, <span class="sc">-</span>minute, <span class="sc">-</span>time_hour)</span></code></pre></div>
+<pre><code># A tibble: 336,776 x 6
+   dest  air_time distance  gain hours gain_per_hour
+   &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;
+ 1 IAH        227     1400    -9 3.78          -2.38
+ 2 IAH        227     1416   -16 3.78          -4.23
+ 3 MIA        160     1089   -31 2.67         -11.6 
+ 4 BQN        183     1576    17 3.05           5.57
+ 5 ATL        116      762    19 1.93           9.83
+ 6 ORD        150      719   -16 2.5           -6.4 
+ 7 FLL        158     1065   -24 2.63          -9.11
+ 8 IAD         53      229    11 0.883         12.5 
+ 9 MCO        140      944     5 2.33           2.14
+10 ORD        138      733   -10 2.3           -4.35
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+</div>
+<p><br></p>
+<p><strong>Task</strong>
+How could one use <code>starts_with</code>, <code>ends_with</code>, and <code>contains</code> to select columns from the <code>flights</code> data frame? Provide three different examples in total: one for <code>starts_with</code>, one for <code>ends_with</code>, and one for <code>contains</code>.</p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="other-verbs.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anything that starts with &quot;d&quot;</span></span>
+<span id="cb138-2"><a href="other-verbs.html#cb138-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb138-3"><a href="other-verbs.html#cb138-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">&quot;d&quot;</span>))</span></code></pre></div>
+<pre><code># A tibble: 336,776 x 5
+     day dep_time dep_delay dest  distance
+   &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+ 1     1      517         2 IAH       1400
+ 2     1      533         4 IAH       1416
+ 3     1      542         2 MIA       1089
+ 4     1      544        -1 BQN       1576
+ 5     1      554        -6 ATL        762
+ 6     1      554        -4 ORD        719
+ 7     1      555        -5 FLL       1065
+ 8     1      557        -3 IAD        229
+ 9     1      557        -3 MCO        944
+10     1      558        -2 ORD        733
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="other-verbs.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anything related to delays:</span></span>
+<span id="cb140-2"><a href="other-verbs.html#cb140-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb140-3"><a href="other-verbs.html#cb140-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">&quot;delay&quot;</span>))</span></code></pre></div>
+<pre><code># A tibble: 336,776 x 2
+   dep_delay arr_delay
+       &lt;dbl&gt;     &lt;dbl&gt;
+ 1         2        11
+ 2         4        20
+ 3         2        33
+ 4        -1       -18
+ 5        -6       -25
+ 6        -4        12
+ 7        -5        19
+ 8        -3       -14
+ 9        -3        -8
+10        -2         8
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="other-verbs.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anything related to departures:</span></span>
+<span id="cb142-2"><a href="other-verbs.html#cb142-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb142-3"><a href="other-verbs.html#cb142-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">&quot;dep&quot;</span>))</span></code></pre></div>
+<pre><code># A tibble: 336,776 x 3
+   dep_time sched_dep_time dep_delay
+      &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;
+ 1      517            515         2
+ 2      533            529         4
+ 3      542            540         2
+ 4      544            545        -1
+ 5      554            600        -6
+ 6      554            558        -4
+ 7      555            600        -5
+ 8      557            600        -3
+ 9      557            600        -3
+10      558            600        -2
+# ... with 336,766 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+</div>
+<p><br></p>
+<p><strong>Task</strong>
+Create a new data frame that shows the top 5 airports with the largest average arrival delays from NYC in 2013.</p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="other-verbs.html#cb144-1" aria-hidden="true" tabindex="-1"></a>top5_arr_delays <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span></span>
+<span id="cb144-2"><a href="other-verbs.html#cb144-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">%&gt;%</span></span>
+<span id="cb144-3"><a href="other-verbs.html#cb144-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_arr_delay =</span> <span class="fu">mean</span>(arr_delay, <span class="at">na.rm=</span>T)) <span class="sc">%&gt;%</span></span>
+<span id="cb144-4"><a href="other-verbs.html#cb144-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_arr_delay)) <span class="sc">%&gt;%</span></span>
+<span id="cb144-5"><a href="other-verbs.html#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb144-6"><a href="other-verbs.html#cb144-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-7"><a href="other-verbs.html#cb144-7" aria-hidden="true" tabindex="-1"></a>top5_arr_delays <span class="sc">%&gt;%</span> </span>
+<span id="cb144-8"><a href="other-verbs.html#cb144-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(airports <span class="sc">%&gt;%</span> <span class="fu">select</span>(faa, name), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;dest&quot;</span> <span class="ot">=</span> <span class="st">&quot;faa&quot;</span>) )</span></code></pre></div>
+<pre><code># A tibble: 5 x 3
+  dest  mean_arr_delay name                 
+  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;                
+1 CAE             41.8 Columbia Metropolitan
+2 TUL             33.7 Tulsa Intl           
+3 OKC             30.6 Will Rogers World    
+4 JAC             28.1 Jackson Hole Airport 
+5 TYS             24.1 Mc Ghee Tyson        </code></pre>
+</div>
+<p><br>
+<br></p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="joining-data-frames.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="summary.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

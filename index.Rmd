@@ -1,0 +1,55 @@
+--- 
+title: "Data Analysis: Tidying and Wrangling Data in R"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+biblio-style: apalike
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+library(webexercises)
+library(dplyr)
+library(ggplot2)
+library(nycflights13)
+library(tidyr)
+library(readr)
+library(knitr)
+library(fivethirtyeight)
+library(stringr)
+knitr::opts_chunk$set(echo = TRUE, comment = NA, warning=FALSE, message=FALSE, fig.align="center", fig.pos="H")
+```
+
+# Getting started {-}
+
+You should record the code you create throughout this lab as a record of your work in an `.R` script file by opening **RStudio** from the "Maths-Stats" folder on the lab desktop and going to `File -> New File -> R Script`. Save this file as, say, **DAWeek2.R** in your personal drive (e.g. H: or M:) or to a USB stick that you've brought with you (IMPORTANT: DO NOT navigate to ANY folders like "Documents" or "Desktop"). You will be required to create and write your own script file in the "Further Tasks" section at the end of the session, but writing/copying the code throughout will help you engage with the material directly as you work through the following sections.
+
+To load the libraries in the console below, write/copy the following code into your R script and hit run. You should also copy and paste the calls to `library()` in your script file.
+
+```{r libraries, exercise=TRUE, exercise.eval=FALSE, exercise.echo=TRUE}
+# tidyverse core packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readr)
+library(stringr)
+# packages containing interesting data
+library(nycflights13)
+library(fivethirtyeight)
+```
+
+The first five libraries loaded above are all part of the [`tidyverse`](https://www.tidyverse.org/) collection of R packages\*, a powerful collection of data tools for transforming and visualizing data, which we will use throughout this course.  Many of the libraries withing the `tidyverse` have concise summaries of the key functions and arguments known at "cheat sheets".  These can be accessed via the [Data Analysis Skills Moodle page](https://moodle.gla.ac.uk/course/view.php?id=15542#section-2) or from RStudio [directly](https://www.rstudio.com/resources/cheatsheets/). You are encouraged to familiarise yourself with the "cheat sheets" and have them on hand as you analyse data.  You will have access to these "cheat sheets" in the class tests.  
+
+In particular, the first library `dplyr` provides functions for data wrangling or manipulation using a consistent 'grammar'. The second library `tidyr` helps us create tidy data, which we will now introduce.
+
+The last two libraries contain interesting data sets that we will use throughout the session.
+
+Note: This session is based on Chapters 4 and 5 of the open-source book [Statistical Inference via Data Science: A ModernDive into R and the tidyverse](https://moderndive.com/index.html) which can be consulted at any point.
+
+***
+
+\* You can load and install the core `tidyverse` packages using `install.packages("tidyverse")` and `library(tidyverse)` respectively. Note there are many other `tidyverse` packages with more specialized usage.  You will need to load each one with its own call to `library()`.
+
+<br>
+<br>
+

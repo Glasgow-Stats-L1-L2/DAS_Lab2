@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Group rows using group_by | Data Analysis: Tidying and Wrangling Data in R</title>
+  <meta name="description" content="Group rows using group_by | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Group rows using group_by | Data Analysis: Tidying and Wrangling Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Group rows using group_by | Data Analysis: Tidying and Wrangling Data in R" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="summarize-variables-using-summarize.html"/>
+<link rel="next" href="create-new-variableschange-old-variables-using-mutate.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Getting started</a></li>
+<li class="chapter" data-level="" data-path="introducing-tidy-data.html"><a href="introducing-tidy-data.html"><i class="fa fa-check"></i>Introducing "Tidy" Data</a></li>
+<li class="chapter" data-level="" data-path="observational-units.html"><a href="observational-units.html"><i class="fa fa-check"></i>Observational units</a></li>
+<li class="chapter" data-level="" data-path="identification-vs-measurement-variables.html"><a href="identification-vs-measurement-variables.html"><i class="fa fa-check"></i>Identification vs measurement variables</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html"><i class="fa fa-check"></i>Importing spreadsheets into R</a>
+<ul>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-1-from-the-console"><i class="fa fa-check"></i>Method 1: From the console</a></li>
+<li class="chapter" data-level="" data-path="importing-spreadsheets-into-r.html"><a href="importing-spreadsheets-into-r.html#method-2-using-rstudios-interface"><i class="fa fa-check"></i>Method 2: Using RStudio's interface</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="converting-to-tidy-data-format.html"><a href="converting-to-tidy-data-format.html"><i class="fa fa-check"></i>Converting to "tidy" data format</a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html"><i class="fa fa-check"></i>Introducing data wrangling</a>
+<ul>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#the-pipe"><i class="fa fa-check"></i>The pipe <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="" data-path="introducing-data-wrangling.html"><a href="introducing-data-wrangling.html#data-wrangling-verbs"><i class="fa fa-check"></i>Data wrangling verbs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="filter-observations-using-filter.html"><a href="filter-observations-using-filter.html"><i class="fa fa-check"></i>Filter observations using filter</a></li>
+<li class="chapter" data-level="" data-path="summarize-variables-using-summarize.html"><a href="summarize-variables-using-summarize.html"><i class="fa fa-check"></i>Summarize variables using summarize</a></li>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html"><i class="fa fa-check"></i>Group rows using <code>group_by</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="group-rows-using-group_by.html"><a href="group-rows-using-group_by.html#grouping-by-more-than-one-variable"><i class="fa fa-check"></i>Grouping by more than one variable</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="create-new-variableschange-old-variables-using-mutate.html"><a href="create-new-variableschange-old-variables-using-mutate.html"><i class="fa fa-check"></i>Create new variables/change old variables using <code>mutate</code></a></li>
+<li class="chapter" data-level="" data-path="reorder-the-data-frame-using-arrange.html"><a href="reorder-the-data-frame-using-arrange.html"><i class="fa fa-check"></i>Reorder the data frame using <code>arrange</code></a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html"><i class="fa fa-check"></i>Joining data frames</a>
+<ul>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables"><i class="fa fa-check"></i>Joining by "key" variables</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-key-variables-with-different-names"><i class="fa fa-check"></i>Joining by "key" variables with different names</a></li>
+<li class="chapter" data-level="" data-path="joining-data-frames.html"><a href="joining-data-frames.html#joining-by-multiple-key-variables"><i class="fa fa-check"></i>Joining by multiple "key" variables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html"><i class="fa fa-check"></i>Other verbs</a>
+<ul>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#select-variables-using-select"><i class="fa fa-check"></i>Select variables using <code>select</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#rename-variables-using-rename"><i class="fa fa-check"></i>Rename variables using <code>rename</code></a></li>
+<li class="chapter" data-level="" data-path="other-verbs.html"><a href="other-verbs.html#find-the-top-number-of-values-using-top_n"><i class="fa fa-check"></i>Find the top number of values using <code>top_n</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="further-tasks.html"><a href="further-tasks.html"><i class="fa fa-check"></i>Further Tasks</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Tidying and Wrangling Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="group-rows-using-group_by" class="section level1 unnumbered hasAnchor">
+<h1>Group rows using <code>group_by</code><a href="group-rows-using-group_by.html#group-rows-using-group_by" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="images/group_summary.png" width="400px" style="display: block; margin: auto;" /></p>
+<p>It's often of interest to summarize a variable based on the groupings of another variable. Let's say, for example, we are interested in the mean and standard deviation of temperatures <em>in each month</em>. We can produce this by running the following code:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="group-rows-using-group_by.html#cb64-1" aria-hidden="true" tabindex="-1"></a>summary_monthly_temp <span class="ot">&lt;-</span> weather <span class="sc">%&gt;%</span> </span>
+<span id="cb64-2"><a href="group-rows-using-group_by.html#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-3"><a href="group-rows-using-group_by.html#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb64-4"><a href="group-rows-using-group_by.html#cb64-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">std_dev =</span> <span class="fu">sd</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb64-5"><a href="group-rows-using-group_by.html#cb64-5" aria-hidden="true" tabindex="-1"></a>summary_monthly_temp</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">month</th>
+<th align="right">mean</th>
+<th align="right">std_dev</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">35.63566</td>
+<td align="right">10.224635</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">34.27060</td>
+<td align="right">6.982378</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">39.88007</td>
+<td align="right">6.249278</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">51.74564</td>
+<td align="right">8.786168</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">61.79500</td>
+<td align="right">9.681644</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">72.18400</td>
+<td align="right">7.546371</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">80.06622</td>
+<td align="right">7.119898</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">74.46847</td>
+<td align="right">5.191615</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">67.37129</td>
+<td align="right">8.465902</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">60.07113</td>
+<td align="right">8.846035</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">44.99043</td>
+<td align="right">10.443805</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">38.44180</td>
+<td align="right">9.982432</td>
+</tr>
+</tbody>
+</table>
+<p>This code is identical to the previous code that created <code>summary_temp</code>, with an extra <code>group_by(month)</code> added. Grouping the <code>weather</code> data set by <code>month</code> and then passing this new data frame into <code>summarize</code> yields a data frame that shows the mean and standard deviation of temperature for each month in New York City. Note: Since each row in <code>summary_monthly_temp</code> represents a summary of different rows in <code>weather</code>, the observational units have changed.</p>
+<p>It is important to note that <code>group_by</code> doesn't change the data frame. It sets <em>meta-data</em> (data about the data), specifically the group structure of the data. It is only after we apply the <code>summarize</code> function that the data frame changes.</p>
+<p>If we would like to remove this group structure meta-data, we can pipe the resulting data frame into the <code>ungroup()</code> function. For example, say the group structure meta-data is set to be by month via <code>group_by(month)</code>, all future summaries will be reported on a month-by-month basis. If however, we would like to no longer have this and have all summaries be for all data in a single group (in this case over the entire year of 2013), then pipe the data frame in question through and <code>ungroup()</code> to remove this.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="group-rows-using-group_by.html#cb65-1" aria-hidden="true" tabindex="-1"></a>summary_monthly_temp <span class="ot">&lt;-</span> weather <span class="sc">%&gt;%</span> </span>
+<span id="cb65-2"><a href="group-rows-using-group_by.html#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-3"><a href="group-rows-using-group_by.html#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb65-4"><a href="group-rows-using-group_by.html#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb65-5"><a href="group-rows-using-group_by.html#cb65-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">std_dev =</span> <span class="fu">sd</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb65-6"><a href="group-rows-using-group_by.html#cb65-6" aria-hidden="true" tabindex="-1"></a>summary_monthly_temp</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">mean</th>
+<th align="right">std_dev</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">55.26039</td>
+<td align="right">17.78785</td>
+</tr>
+</tbody>
+</table>
+<p>We now revisit the <code>n()</code> counting summary function we introduced in the previous section. For example, suppose we'd like to get a sense for how many flights departed each of the three airports in New York City:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="group-rows-using-group_by.html#cb66-1" aria-hidden="true" tabindex="-1"></a>by_origin <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb66-2"><a href="group-rows-using-group_by.html#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin) <span class="sc">%&gt;%</span> </span>
+<span id="cb66-3"><a href="group-rows-using-group_by.html#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb66-4"><a href="group-rows-using-group_by.html#cb66-4" aria-hidden="true" tabindex="-1"></a>by_origin</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">origin</th>
+<th align="right">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">EWR</td>
+<td align="right">120835</td>
+</tr>
+<tr class="even">
+<td align="left">JFK</td>
+<td align="right">111279</td>
+</tr>
+<tr class="odd">
+<td align="left">LGA</td>
+<td align="right">104662</td>
+</tr>
+</tbody>
+</table>
+<p>We see that Newark (<code>"EWR"</code>) had the most flights departing in 2013 followed by <code>"JFK"</code> and lastly by LaGuardia (<code>"LGA"</code>). Note there is a subtle but important difference between <code>sum()</code> and <code>n()</code>. While <code>sum()</code> simply adds up a large set of numbers, the latter counts the number of times each of many different values occur.</p>
+<div id="grouping-by-more-than-one-variable" class="section level3 unnumbered hasAnchor">
+<h3>Grouping by more than one variable<a href="group-rows-using-group_by.html#grouping-by-more-than-one-variable" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You are not limited to grouping by one variable! Say you wanted to know the number of flights leaving each of the three New York City airports <em>for each month</em>, we can also group by a second variable <code>month</code>: <code>group_by(origin, month)</code>.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="group-rows-using-group_by.html#cb67-1" aria-hidden="true" tabindex="-1"></a>by_origin_monthly <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb67-2"><a href="group-rows-using-group_by.html#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin, month) <span class="sc">%&gt;%</span> </span>
+<span id="cb67-3"><a href="group-rows-using-group_by.html#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb67-4"><a href="group-rows-using-group_by.html#cb67-4" aria-hidden="true" tabindex="-1"></a>by_origin_monthly</span></code></pre></div>
+<pre><code># A tibble: 36 x 3
+# Groups:   origin [3]
+   origin month count
+   &lt;chr&gt;  &lt;int&gt; &lt;int&gt;
+ 1 EWR        1  9893
+ 2 EWR        2  9107
+ 3 EWR        3 10420
+ 4 EWR        4 10531
+ 5 EWR        5 10592
+ 6 EWR        6 10175
+ 7 EWR        7 10475
+ 8 EWR        8 10359
+ 9 EWR        9  9550
+10 EWR       10 10104
+# ... with 26 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>We see there are 36 rows to <code>by_origin_monthly</code> because there are 12 months times 3 airports (<code>EWR</code>, <code>JFK</code>, and <code>LGA</code>). Let's now pose two questions. First, what if we reverse the order of the grouping i.e. we <code>group_by(month, origin)</code>?</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="group-rows-using-group_by.html#cb69-1" aria-hidden="true" tabindex="-1"></a>by_monthly_origin <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb69-2"><a href="group-rows-using-group_by.html#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, origin) <span class="sc">%&gt;%</span> </span>
+<span id="cb69-3"><a href="group-rows-using-group_by.html#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb69-4"><a href="group-rows-using-group_by.html#cb69-4" aria-hidden="true" tabindex="-1"></a>by_monthly_origin</span></code></pre></div>
+<pre><code># A tibble: 36 x 3
+# Groups:   month [12]
+   month origin count
+   &lt;int&gt; &lt;chr&gt;  &lt;int&gt;
+ 1     1 EWR     9893
+ 2     1 JFK     9161
+ 3     1 LGA     7950
+ 4     2 EWR     9107
+ 5     2 JFK     8421
+ 6     2 LGA     7423
+ 7     3 EWR    10420
+ 8     3 JFK     9697
+ 9     3 LGA     8717
+10     4 EWR    10531
+# ... with 26 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>In <code>by_monthly_origin</code> the <code>month</code> column is now first and the rows are sorted by <code>month</code> instead of origin. If you compare the values of <code>count</code> in <code>by_origin_monthly</code> and <code>by_monthly_origin</code> using the <code>View()</code> function, you'll see that the values are actually the same, just presented in a different order.</p>
+<p>Second, why do we <code>group_by(origin, month)</code> and not <code>group_by(origin)</code> and then <code>group_by(month)</code>? Let's investigate:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="group-rows-using-group_by.html#cb71-1" aria-hidden="true" tabindex="-1"></a>by_origin_monthly_incorrect <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb71-2"><a href="group-rows-using-group_by.html#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin) <span class="sc">%&gt;%</span> </span>
+<span id="cb71-3"><a href="group-rows-using-group_by.html#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> </span>
+<span id="cb71-4"><a href="group-rows-using-group_by.html#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb71-5"><a href="group-rows-using-group_by.html#cb71-5" aria-hidden="true" tabindex="-1"></a>by_origin_monthly_incorrect</span></code></pre></div>
+<pre><code># A tibble: 12 x 2
+   month count
+   &lt;int&gt; &lt;int&gt;
+ 1     1 27004
+ 2     2 24951
+ 3     3 28834
+ 4     4 28330
+ 5     5 28796
+ 6     6 28243
+ 7     7 29425
+ 8     8 29327
+ 9     9 27574
+10    10 28889
+11    11 27268
+12    12 28135</code></pre>
+<p>What happened here is that the second <code>group_by(month)</code> overrode the first <code>group_by(origin)</code>, so that in the end we are only grouping by <code>month</code>. The lesson here, is if you want to <code>group_by()</code> two or more variables, you should include all these variables in a single <code>group_by()</code> function call.</p>
+<p><br></p>
+<p><strong>Task</strong>
+Recall from Week 1 when we looked at plots of temperatures by months in NYC. What does the standard deviation column in the <code>summary_monthly_temp</code> data frame tell us about temperatures in New York City throughout the year?</p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<p>The standard deviation is a quantification of spread or variability.</p>
+<p>We see that the period in November, December, and January has the most variation in weather, so you can expect very different temperatures on different days.</p>
+</div>
+<p><br></p>
+<p><strong>Task</strong>
+Write code to produce the mean and standard deviation temperature for each day in 2013 for NYC?</p>
+<div class="webex-solution">
+<button>
+Hint
+</button>
+<p>Make sure to <code>group_by</code> the appropriate variables first, before <code>summarize</code>ing the mean and standard deviation.</p>
+</div>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="group-rows-using-group_by.html#cb73-1" aria-hidden="true" tabindex="-1"></a>summary_temp_by_day <span class="ot">&lt;-</span> weather <span class="sc">%&gt;%</span> </span>
+<span id="cb73-2"><a href="group-rows-using-group_by.html#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month, day) <span class="sc">%&gt;%</span> </span>
+<span id="cb73-3"><a href="group-rows-using-group_by.html#cb73-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb73-4"><a href="group-rows-using-group_by.html#cb73-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">std_dev =</span> <span class="fu">sd</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb73-5"><a href="group-rows-using-group_by.html#cb73-5" aria-hidden="true" tabindex="-1"></a>summary_temp_by_day</span></code></pre></div>
+<pre><code># A tibble: 364 x 5
+# Groups:   year, month [12]
+    year month   day  mean std_dev
+   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;
+ 1  2013     1     1  37.0    4.00
+ 2  2013     1     2  28.7    3.45
+ 3  2013     1     3  30.0    2.58
+ 4  2013     1     4  34.9    2.45
+ 5  2013     1     5  37.2    4.01
+ 6  2013     1     6  40.1    4.40
+ 7  2013     1     7  40.6    3.68
+ 8  2013     1     8  40.1    5.77
+ 9  2013     1     9  43.2    5.40
+10  2013     1    10  43.8    2.95
+# ... with 354 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+</div>
+<p><br></p>
+<p><strong>Task</strong>
+Recreate <code>by_monthly_origin</code>, but instead of grouping via <code>group_by(origin, month)</code>, group variables in a different order <code>group_by(month, origin)</code>. What differs in the resulting data set?</p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="group-rows-using-group_by.html#cb75-1" aria-hidden="true" tabindex="-1"></a>by_monthly_origin <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb75-2"><a href="group-rows-using-group_by.html#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, origin) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-3"><a href="group-rows-using-group_by.html#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb75-4"><a href="group-rows-using-group_by.html#cb75-4" aria-hidden="true" tabindex="-1"></a>by_monthly_origin</span></code></pre></div>
+<pre><code># A tibble: 36 x 3
+# Groups:   month [12]
+   month origin count
+   &lt;int&gt; &lt;chr&gt;  &lt;int&gt;
+ 1     1 EWR     9893
+ 2     1 JFK     9161
+ 3     1 LGA     7950
+ 4     2 EWR     9107
+ 5     2 JFK     8421
+ 6     2 LGA     7423
+ 7     3 EWR    10420
+ 8     3 JFK     9697
+ 9     3 LGA     8717
+10     4 EWR    10531
+# ... with 26 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>The difference is they are organized/sorted by <code>month</code> first, then <code>origin</code></p>
+</div>
+<p><br></p>
+<p><strong>Task</strong>
+How could we identify how many flights left each of the three airports for each <code>carrier</code>?</p>
+<div class="webex-solution">
+<button>
+Hint
+</button>
+<p>Summarize the count from each airport using the <code>n()</code> function, which <em>counts rows</em>.</p>
+</div>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="group-rows-using-group_by.html#cb77-1" aria-hidden="true" tabindex="-1"></a>count_flights_by_airport <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb77-2"><a href="group-rows-using-group_by.html#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin, carrier) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-3"><a href="group-rows-using-group_by.html#cb77-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count=</span><span class="fu">n</span>())</span>
+<span id="cb77-4"><a href="group-rows-using-group_by.html#cb77-4" aria-hidden="true" tabindex="-1"></a>count_flights_by_airport</span></code></pre></div>
+<pre><code># A tibble: 35 x 3
+# Groups:   origin [3]
+   origin carrier count
+   &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt;
+ 1 EWR    9E       1268
+ 2 EWR    AA       3487
+ 3 EWR    AS        714
+ 4 EWR    B6       6557
+ 5 EWR    DL       4342
+ 6 EWR    EV      43939
+ 7 EWR    MQ       2276
+ 8 EWR    OO          6
+ 9 EWR    UA      46087
+10 EWR    US       4405
+# ... with 25 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>Note: the <code>n()</code> function counts rows, whereas the <code>sum(VARIABLE_NAME)</code> function sums all values of a certain numerical variable <code>VARIABLE_NAME</code>.</p>
+</div>
+<p><br></p>
+<p><strong>Task</strong>
+How does the <code>filter</code> operation differ from a <code>group_by</code> followed by a <code>summarize</code>?</p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<p><code>filter()</code> picks out rows from the original data set without modifying them, whereas <code>group_by %&gt;% summarize</code> computes summaries of numerical variables, and hence reports new values.</p>
+</div>
+<p><br>
+<br></p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="summarize-variables-using-summarize.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="create-new-variableschange-old-variables-using-mutate.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

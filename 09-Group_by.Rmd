@@ -1,0 +1,173 @@
+# Group rows using `group_by` {-}
+
+```{r groupsummarize, echo=FALSE, purl=FALSE, out.width = "400px", fig.pos="h"}
+knitr::include_graphics("images/group_summary.png")
+```
+
+It's often of interest to summarize a variable based on the groupings of another variable.  Let's say, for example, we are interested in the mean and standard deviation of temperatures *in each month*. We can produce this by running the following code:
+
+```{r, eval=FALSE}
+summary_monthly_temp <- weather %>% 
+  group_by(month) %>% 
+  summarize(mean = mean(temp, na.rm = TRUE), 
+            std_dev = sd(temp, na.rm = TRUE))
+summary_monthly_temp
+```
+```{r, echo=FALSE}
+summary_monthly_temp <- weather %>% 
+  group_by(month) %>% 
+  summarize(mean = mean(temp, na.rm = TRUE), 
+            std_dev = sd(temp, na.rm = TRUE))
+kable(summary_monthly_temp)
+```
+
+This code is identical to the previous code that created `summary_temp`, with an extra `group_by(month)` added. Grouping the `weather` data set by `month` and then passing this new data frame into `summarize` yields a data frame that shows the mean and standard deviation of  temperature for each month in New York City. Note: Since each row in `summary_monthly_temp` represents a summary of different rows in `weather`, the observational units have changed.
+
+It is important to note that `group_by` doesn't change the data frame. It sets *meta-data* (data about the data), specifically the group structure of the data. It is only after we apply the `summarize` function that the data frame changes. 
+
+If we would like to remove this group structure meta-data, we can pipe the resulting data frame into the `ungroup()` function. For example, say the group structure meta-data is set to be by month via `group_by(month)`, all future summaries will be reported on a month-by-month basis. If however, we would like to no longer have this and have all summaries be for all data in a single group (in this case over the entire year of 2013), then pipe the data frame in question through and `ungroup()` to remove this.
+
+```{r, eval=FALSE}
+summary_monthly_temp <- weather %>% 
+  group_by(month) %>% 
+  ungroup() %>%
+  summarize(mean = mean(temp, na.rm = TRUE), 
+            std_dev = sd(temp, na.rm = TRUE))
+summary_monthly_temp
+```
+```{r, echo=FALSE}
+summary_monthly_temp <- weather %>% 
+  group_by(month) %>% 
+  ungroup() %>%
+  summarize(mean = mean(temp, na.rm = TRUE), 
+            std_dev = sd(temp, na.rm = TRUE))
+kable(summary_monthly_temp)
+```
+
+We now revisit the `n()` counting summary function we introduced in the previous section. For example, suppose we'd like to get a sense for how many flights departed each of the three airports in New York City:
+
+```{r, eval=FALSE}
+by_origin <- flights %>% 
+  group_by(origin) %>% 
+  summarize(count = n())
+by_origin
+```
+```{r, echo=FALSE}
+by_origin <- flights %>% 
+  group_by(origin) %>% 
+  summarize(count = n())
+kable(by_origin)
+```
+
+We see that Newark (`"EWR"`) had the most flights departing in 2013 followed by `"JFK"` and lastly by LaGuardia (`"LGA"`). Note there is a subtle but important difference between `sum()` and `n()`. While `sum()` simply adds up a large set of numbers, the latter counts the number of times each of many different values occur. 
+
+### Grouping by more than one variable {-}
+
+You are not limited to grouping by one variable! Say you wanted to know the number of flights leaving each of the three New York City airports *for each month*, we can also group by a second variable `month`: `group_by(origin, month)`.
+
+```{r}
+by_origin_monthly <- flights %>% 
+  group_by(origin, month) %>% 
+  summarize(count = n())
+by_origin_monthly
+```
+
+We see there are 36 rows to `by_origin_monthly` because there are 12 months times 3 airports (`EWR`, `JFK`, and `LGA`). Let's now pose two questions. First, what if we reverse the order of the grouping i.e. we `group_by(month, origin)`?
+
+```{r}
+by_monthly_origin <- flights %>% 
+  group_by(month, origin) %>% 
+  summarize(count = n())
+by_monthly_origin
+```
+
+In `by_monthly_origin` the `month` column is now first and the rows are sorted by `month` instead of origin. If you compare the values of `count` in `by_origin_monthly` and `by_monthly_origin` using the `View()` function, you'll see that the values are actually the same, just presented in a different order. 
+
+Second, why do we `group_by(origin, month)` and not `group_by(origin)` and then `group_by(month)`? Let's investigate:
+
+```{r}
+by_origin_monthly_incorrect <- flights %>% 
+  group_by(origin) %>% 
+  group_by(month) %>% 
+  summarize(count = n())
+by_origin_monthly_incorrect
+```
+
+What happened here is that the second `group_by(month)` overrode the first `group_by(origin)`, so that in the end we are only grouping by `month`. The lesson here, is if you want to `group_by()` two or more variables, you should include all these variables in a single `group_by()` function call.
+
+<br>
+
+**Task**
+Recall from Week 1 when we looked at plots of temperatures by months in NYC. What does the standard deviation column in the `summary_monthly_temp` data frame tell us about temperatures in New York City throughout the year?
+
+`r hide("Solution")`
+The standard deviation is a quantification of spread or variability.
+
+We see that the period in November, December, and January has the most variation in weather, so you can expect very different temperatures on different days.
+`r unhide()`
+
+<br>
+
+**Task**
+Write code to produce the mean and standard deviation temperature for each day in 2013 for NYC?
+
+`r hide("Hint")`
+Make sure to `group_by` the appropriate variables first, before `summarize`ing the mean and standard deviation.
+`r unhide()`
+
+```{r Task10-solution, webex.hide="Solution", echo=TRUE, eval=TRUE, warning=FALSE}
+summary_temp_by_day <- weather %>% 
+  group_by(year, month, day) %>% 
+  summarize(mean = mean(temp, na.rm = TRUE),
+            std_dev = sd(temp, na.rm = TRUE))
+summary_temp_by_day
+```
+
+<br>
+
+**Task**
+Recreate `by_monthly_origin`, but instead of grouping via `group_by(origin, month)`, group variables in a different order `group_by(month, origin)`. What differs in the resulting data set?
+
+`r hide("Solution")`
+```{r Task11-solution, eval=TRUE, echo=TRUE}
+by_monthly_origin <- flights %>% 
+  group_by(month, origin) %>% 
+  summarize(count = n())
+by_monthly_origin
+```
+
+The difference is they are organized/sorted by `month` first, then `origin`
+`r unhide()`
+
+<br>
+
+**Task**
+How could we identify how many flights left each of the three airports for each `carrier`?
+
+`r hide("Hint")`
+Summarize the count from each airport using the `n()` function, which *counts rows*.
+`r unhide()`
+
+`r hide("Solution")`
+```{r Task12-solution, echo=TRUE, eval=TRUE}
+count_flights_by_airport <- flights %>% 
+  group_by(origin, carrier) %>% 
+  summarize(count=n())
+count_flights_by_airport
+```
+
+Note: the `n()` function counts rows, whereas the `sum(VARIABLE_NAME)` function sums all values of a certain numerical variable `VARIABLE_NAME`.
+`r unhide()`
+
+<br>
+
+**Task**
+How does the `filter` operation differ from a `group_by` followed by a `summarize`?
+
+`r hide("Solution")`
+`filter()` picks out rows from the original data set without modifying them, whereas `group_by %>% summarize` computes summaries of numerical variables, and hence reports new values.
+`r unhide()`
+
+<br>
+<br>
+

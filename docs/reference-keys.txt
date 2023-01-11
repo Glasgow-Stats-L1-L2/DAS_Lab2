@@ -1,0 +1,10 @@
+fig:tidyfig
+tab:unnamed-chunk-3
+tab:unnamed-chunk-4
+tab:unnamed-chunk-5
+fig:guatline
+fig:unnamed-chunk-40
+fig:reldiagram
+fig:ijdiagram
+fig:selectfig
+tab:wrangle-summary-table

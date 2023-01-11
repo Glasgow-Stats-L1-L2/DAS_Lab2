@@ -1,0 +1,104 @@
+# Joining data frames {-}
+
+Another common task is joining or merging two different data sets. For example, in the `flights` data, the variable `carrier` lists the carrier code for the different flights. While `"UA"` and `"AA"` might be somewhat easy to guess for some (United and American Airlines), what are "VX", "HA", and "B6"? This information is provided in a separate data frame `airlines`.
+
+```{r eval=TRUE}
+head(airlines)
+```
+
+We see that in `airports`, `carrier` is the carrier code while `name` is the full name of the airline. Using this table, we can see that "VX", "HA", and "B6" correspond to Virgin America, Hawaiian Airlines, and JetBlue respectively. However, will we have to continually look up the carrier's name for each flight in the `airlines` data set?  No! Instead of having to  do this manually, we can have R automatically do the "looking up" for us.  
+
+Note that the values in the variable `carrier` in `flights` match the values in the variable `carrier` in `airlines`. In this case, we can use the variable `carrier` as a **key variable** to join/merge/match the two data frames by. Key variables are almost always identification variables that uniquely identify the observational units as we saw back in the "Identification vs Measurement Variable" section. This ensures that rows in both data frames are appropriate matched during the join. 
+
+This diagram helps us understand how the different data sets are linked by various key variables:
+
+```{r reldiagram, echo=FALSE, fig.cap="Data relationships in nycflights13 from R for Data Science, Hadley and Garrett (2016)", purl=FALSE, out.width = "400px", fig.pos="h"}
+knitr::include_graphics("images/relational-nycflights.png")
+```
+
+### Joining by "key" variables {-}
+
+In both `flights` and `airlines`, the key variable we want to join/merge/match the two data frames with has the same name in both data sets: `carriers`. We make use of the `inner_join()` function to join by the variable `carrier`.
+
+```{r eval=TRUE}
+flights_joined <- flights %>% 
+  inner_join(airlines, by = "carrier")
+names(flights)
+names(flights_joined)
+flights_joined %>% select(flight, carrier, name) 
+```
+
+We observed that the `flights` and `flights_joined` are identical except that `flights_joined` has an additional variable `name` whose values were drawn from `airlines`. 
+
+A visual representation of the `inner_join` is given below:
+
+```{r ijdiagram, echo=FALSE, fig.cap="Diagram of inner join from R for Data Science", purl=FALSE, out.width = "400px", fig.pos="h"}
+knitr::include_graphics("images/join-inner.png")
+```
+
+There are more complex joins available, but the `inner_join` will solve nearly all of the problems you'll face in our experience.
+
+### Joining by "key" variables with different names {-}
+
+Say instead, you are interested in all the destinations of flights from NYC in 2013 and ask yourself:
+
+- "What cities are these airports in?" 
+- "Is `"ORD"` Orlando?"
+- "Where is `"FLL"`?
+
+The `airports` data frame contains airport codes:
+
+```{r eval=TRUE}
+head(airports)
+```
+
+However, looking at both the `airports` and `flights` and the visual representation of the relations between the data frames in the figure above, we see that in:
+
+* `airports` the airport code is in the variable `faa`
+* `flights` the departure airport code is in the variable `origin`
+
+So to join these two data sets, our `inner_join` operation involves a `by` argument that accounts for the different names:
+
+```{r, eval=FALSE}
+flights %>% 
+  inner_join(airports, by = c("dest" = "faa"))
+```
+
+Let's construct the sequence of commands that computes the number of flights from NYC to each destination, but also includes information about each destination airport:
+
+```{r}
+named_dests <- flights %>%
+  group_by(dest) %>%
+  summarize(num_flights = n()) %>%
+  arrange(desc(num_flights)) %>%
+  inner_join(airports, by = c("dest" = "faa")) %>%
+  rename(airport_name = name)
+named_dests
+```
+
+In case you didn't know, `"ORD"` is the airport code of Chicago O'Hare airport and `"FLL"` is the main airport in Fort Lauderdale, Florida, which we can now see in our `named_dests` data frame.
+
+### Joining by multiple "key" variables {-}
+
+Say instead we are in a situation where we need to join by multiple variables. For example, in the first figure in this section we see that in order to join the `flights` and `weather` data frames, we need more than one key variable: `year`, `month`, `day`, `hour`, and `origin`. This is because the combination of these 5 variables act to uniquely identify each observational unit in the `weather` data frame: hourly weather recordings at each of the 3 NYC airports.
+
+We achieve this by specifying a vector of key variables to join by using the `c()` concatenate function. Note the individual variables need to be wrapped in quotation marks.
+
+```{r}
+flights_weather_joined <- flights %>%
+  inner_join(weather, by = c("year", "month", "day", "hour", "origin"))
+head(flights_weather_joined[,c(1:4,10:11,22:32)])
+```
+
+<br>
+
+**Task**
+Looking at the first figure in this section, when joining `flights` and `weather` (or, in other words, matching the hourly weather values with each flight), why do we need to join by all of `year`, `month`, `day`, `hour`, and `origin`, and not just `hour`?
+
+`r hide("Solution")`
+Because `hour` is simply a value between 0 and 23; to identify a **specific** hour, we need to also know which `year`, `month`, `day` and at which `airport`.
+`r unhide()`
+
+<br>
+<br>
+
